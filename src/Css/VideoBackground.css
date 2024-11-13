@@ -1,0 +1,34 @@
+.video-background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .animation-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: videoAnimation 3s steps(30) infinite; /* Adjust duration based on frames */
+  }
+  
+  .content-overlay {
+    position: relative;
+    color: white;
+    text-align: center;
+    z-index: 1;
+    padding-top: 20%;
+  }
+  
+  /* Define the CSS keyframe animation */
+  @keyframes videoAnimation {
+    0% { background-image: url('/videoFrames/frame_0.jpg'); }
+    3.33% { background-image: url('/videoFrames/frame_1.jpg'); }
+    6.67% { background-image: url('/videoFrames/frame_2.jpg'); }
+    10% { background-image: url('/videoFrames/frame_3.jpg'); }
+    /* Add more percentages for each frame */
+    100% { background-image: url('/videoFrames/frame_29.jpg'); }
+  }
+  

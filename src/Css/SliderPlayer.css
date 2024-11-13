@@ -1,0 +1,208 @@
+@import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+
+input[type="radio"] {
+  display: none;
+}
+/* Button styles */
+.navigate-btn {
+  display: none;
+  position: absolute;
+  bottom: 65%;
+  left: 50%;
+  font-family: 'Courier New', Courier, monospace;
+  width: auto;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 30px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transform: translateX(-50%);
+  padding: 5px 20px;
+  color: #000000; 
+  background-color: #ffffff;
+  border: 4px solid black;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  overflow: hidden; 
+  position: relative; 
+  
+}
+
+.navigate-btn span{
+  position: relative;
+}
+
+
+.navigate-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  height: 0%; 
+  background-color: black; 
+  transition: height 0.3s ease;
+}
+
+/* On hover, expand the pseudo-element and make the text visible */
+.navigate-btn:hover::before {
+  height: 100%;
+}
+
+.navigate-btn:hover {
+  background-color: #000000;
+  color: rgb(255, 255, 255); /* Change text color to white on hover */
+  border: 4px solid rgb(255, 255, 255);
+  transition: all 0.4s ease-in-out;
+  visibility: visible; /* Make the text visible when hovered */
+}
+
+.card:hover .navigate-btn {
+  display: block;
+  opacity: 1;
+}
+
+.card:hover {
+  background-color: #000000;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover img {
+  opacity: 0.4;
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.card {
+  position: absolute;
+  overflow: hidden;
+  width: 65%;
+  height: 95%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transition: transform 0.4s ease;
+    cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="18" height="28" viewBox="0 0 24 24"%3E%3Cpath fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"%3E%3C/path%3E%3C/svg%3E') 1 1, auto;  
+}
+
+
+.container {
+  width: 185vh;
+  height: 102.5vh;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 10px;
+  font-family: "DM Sans", sans-serif;
+  transition: background 0.4s ease-in;
+  background-color: #ffffff,;
+  margin-top: -70px;
+}
+
+.cards {
+  position: relative;
+  width: 80%;
+  height: 60%;
+  margin-bottom: 20px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+#item-1:checked ~ .cards #song-3,
+#item-2:checked ~ .cards #song-1,
+#item-3:checked ~ .cards #song-2 {
+  transform: translateX(-40%) scale(0.8);
+  opacity: 0.4;
+  z-index: 0;
+}
+
+#item-1:checked ~ .cards #song-2,
+#item-2:checked ~ .cards #song-3,
+#item-3:checked ~ .cards #song-1 {
+  transform: translateX(40%) scale(0.8);
+  opacity: 0.4;
+  z-index: 0;
+}
+
+#item-1:checked ~ .cards #song-1,
+#item-2:checked ~ .cards #song-2,
+#item-3:checked ~ .cards #song-3 {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  z-index: 1;
+}
+
+.player {
+  background-color: #000000;
+  border-radius: 8px;
+  width: 95%;
+  height: 130px;
+  padding: 16px 10px;
+  margin-bottom: -70px;
+}
+
+.upper-part {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+.song-info {
+  width: calc(100% - 32px);
+  display: block;
+  overflow: hidden;
+}
+
+.song-info .title {
+  color: #ffffff;
+  -webkit-text-stroke-width: 1px;
+  font-size: 40px;
+  line-height: 30px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.sub-line {
+  display: flex;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.bold-text{
+  font-size: 20px;
+  -webkit-text-stroke-width: 1px;
+}
+
+.subtitle,
+.time {
+  font-size: 20px;
+  line-height: 26px;
+  color: #c6c5c6;
+}
+
+.time {
+  color: #a5a5a5;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.info-area {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  transition: transform 0.4s ease-in;
+}
