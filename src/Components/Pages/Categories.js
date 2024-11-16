@@ -55,7 +55,7 @@ const Categories = () => {
                 alt="Men Fashion"
               />
               <button
-                onClick={() => handleNavigate("/Categories/Men")}
+                onClick={() => handleNavigate("/Categories/Clothing/Men")}
                 className="image-button"
               >
                 Shop Men Fashion
@@ -68,7 +68,7 @@ const Categories = () => {
                 alt="Women Fashion"
               />
               <button
-                onClick={() => handleNavigate("/Categories/Women")}
+                onClick={() => handleNavigate("/Categories/Clothing/Women")}
                 className="image-button"
               >
                 Shop Women Fashion
@@ -98,7 +98,7 @@ const Categories = () => {
                   alt="Home Appliances"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/HomeAppliances")}
+                  onClick={() => handleNavigate("/Categories/HomeAppliances/Appliances")}
                   className="image-button"
                 >
                   Shop Home Appliances
@@ -114,7 +114,7 @@ const Categories = () => {
                   alt="shoe"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/Shoes")}
+                  onClick={() => handleNavigate("/Categories/Shoes/Running")}
                   className="image-button w-[15rem]"
                 >
                   Shop Shoes
@@ -127,7 +127,7 @@ const Categories = () => {
                   alt="Toys"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/Toys")}
+                  onClick={() => handleNavigate("/Categories/Toys/All")}
                   className="image-button w-[15rem]"
                 >
                   shop toys
@@ -145,7 +145,7 @@ const Categories = () => {
                   alt="Decor"
                 />
                 <button
-                  onClick={() => handleNavigate("/Category/Cosmetics")}
+                  onClick={() => handleNavigate("/Category/Cosmetics/All")}
                   className="image-button w-[25rem]"
                 >
                   shop Cosmetic items
@@ -158,7 +158,7 @@ const Categories = () => {
                   alt="Decor"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/Tools")}
+                  onClick={() => handleNavigate("/Categories/Tools/All")}
                   className="image-button w-[25rem]"
                 >
                   shop tool equipments
@@ -171,7 +171,7 @@ const Categories = () => {
                   alt="Decor"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/Stationery")}
+                  onClick={() => handleNavigate("/Categories/Stationery/All")}
                   className="image-button"
                 >
                   shop Stationery items
@@ -185,7 +185,7 @@ const Categories = () => {
                 alt="Decor"
               />
               <button
-                onClick={() => handleNavigate("/Categories/HomeDecor")}
+                onClick={() => handleNavigate("/Categories/HomeDecor/Decor")}
                 className="image-button"
               >
                 shop hoome decor items
@@ -199,7 +199,7 @@ const Categories = () => {
               alt="Decor"
             />
             <button
-              onClick={() => handleNavigate("/Categories/Books&Comics")}
+              onClick={() => handleNavigate("/Categories/Books/All")}
               className="image-button"
             >
               shop books and comics

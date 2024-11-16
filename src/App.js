@@ -6,6 +6,7 @@ import Hero from "./Components/Hero";
 import Footer from "./Components/Footer";
 import Cart from "./Components/Pages/Cart";
 import Categories from "./Components/Pages/Categories";
+import ProductList from "./Components/Pages/ProductList";
 import Productdetails from "./Components/Pages/Productdetails";
 function App() {
 
@@ -23,7 +24,8 @@ function App() {
           <Hero isSidebarOpen={isSidebarOpen} /> <Footer/></>} />
           <Route path="/Cart" element={<><Cart/></>} />
           <Route path="/Categories" element={<><Categories/></>} />
-          <Route path="/Productdetails" element={<Productdetails />} />
+          <Route path="/Categories/:Category/:Type" element={<ProductList />} />
+          <Route path="/Productdetails/:Product-type/:id" element={<Productdetails />} />
         </Routes>
       </BrowserRouter>
     </div>
