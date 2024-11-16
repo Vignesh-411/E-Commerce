@@ -85,7 +85,7 @@ const Categories = () => {
                   alt="Tech"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/Electronics")}
+                  onClick={() => handleNavigate("/Categories/Electronics/Tech")}
                   className="image-button"
                 >
                   Shop Tech Gadgets
@@ -145,7 +145,7 @@ const Categories = () => {
                   alt="Decor"
                 />
                 <button
-                  onClick={() => handleNavigate("/Category/Cosmetics/All")}
+                  onClick={() => handleNavigate("/Categories/Cosmetics/All")}
                   className="image-button w-[25rem]"
                 >
                   shop Cosmetic items
@@ -158,7 +158,7 @@ const Categories = () => {
                   alt="Decor"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/Tools/All")}
+                  onClick={() => handleNavigate("/Categories/Tools/Equipments")}
                   className="image-button w-[25rem]"
                 >
                   shop tool equipments
