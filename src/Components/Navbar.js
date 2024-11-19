@@ -36,7 +36,7 @@ const Navbar = () => {
   };
 
   const handleSearchClick = (e) => {
-    // Prevent the search container from closing or triggering the search toggle when clicked inside
+    
     e.stopPropagation();
   };
 
@@ -58,11 +58,11 @@ const Navbar = () => {
           Categories
         </a>
         <a
-          href="/Products"
+          href="/Cart"
           className={`sidebar-link ${activeLink === 3 ? "active" : ""}`}
           onClick={() => handleSetActive(3)}
         >
-          Products
+          Cart
         </a>
         <a
           href="/Help"
@@ -77,6 +77,13 @@ const Navbar = () => {
           onClick={() => handleSetActive(5)}
         >
           FAQ
+        </a>
+        <a
+          href="/Orders"
+          className={`sidebar-link ${activeLink === 5 ? "active" : ""}`}
+          onClick={() => handleSetActive(6)}
+        >
+          ORDERS
         </a>
       </div>
       <div className="left-section">
