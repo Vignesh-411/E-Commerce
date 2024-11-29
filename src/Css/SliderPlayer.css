@@ -9,7 +9,7 @@ input[type="radio"] {
   position: absolute;
   bottom: 65%;
   left: 50%;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   width: auto;
   text-align: center;
   font-size: 1.5rem;
@@ -18,29 +18,27 @@ input[type="radio"] {
   font-weight: bold;
   transform: translateX(-50%);
   padding: 5px 20px;
-  color: #000000; 
+  color: #000000;
   background-color: #ffffff;
   border: 4px solid black;
   cursor: pointer;
   transition: opacity 0.3s ease;
-  overflow: hidden; 
-  position: relative; 
-  
-}
-
-.navigate-btn span{
+  overflow: hidden;
   position: relative;
 }
 
+.navigate-btn span {
+  position: relative;
+}
 
 .navigate-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%; 
-  height: 0%; 
-  background-color: black; 
+  width: 100%;
+  height: 0%;
+  background-color: black;
   transition: height 0.3s ease;
 }
 
@@ -73,7 +71,6 @@ input[type="radio"] {
   transition: opacity 0.3s ease-in-out;
 }
 
-
 .card {
   position: absolute;
   overflow: hidden;
@@ -83,9 +80,10 @@ input[type="radio"] {
   right: 0;
   margin: auto;
   transition: transform 0.4s ease;
-    cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="18" height="28" viewBox="0 0 24 24"%3E%3Cpath fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"%3E%3C/path%3E%3C/svg%3E') 1 1, auto;  
+  cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="18" height="28" viewBox="0 0 24 24"%3E%3Cpath fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"%3E%3C/path%3E%3C/svg%3E')
+      1 1,
+    auto;
 }
-
 
 .container1 {
   width: 185vh;
@@ -98,7 +96,7 @@ input[type="radio"] {
   padding: 30px 10px;
   font-family: "DM Sans", sans-serif;
   transition: background 0.4s ease-in;
-  background-color: #ffffff,;
+  background-color: #ffffff;
   margin-top: -70px;
 }
 
@@ -158,7 +156,6 @@ img {
   overflow: hidden;
 }
 
-
 .song-info {
   width: calc(100% - 32px);
   display: block;
@@ -181,7 +178,7 @@ img {
   margin-bottom: 50px;
 }
 
-.bold-text{
+.bold-text {
   font-size: 20px;
   -webkit-text-stroke-width: 1px;
 }
@@ -205,4 +202,65 @@ img {
   top: 0;
   left: 30px;
   transition: transform 0.4s ease-in;
+}
+
+@media (max-width: 1250px) {
+  .player {
+    height: 100px;
+  }
+}
+
+/* cards height */
+
+@media (max-width: 1100px) {
+  .cards {
+    width: 70%;
+  }
+}
+
+@media (max-width: 975px) {
+  .cards {
+    width: 60%;
+    height: 50%;
+  }
+}
+
+@media (max-width: 850px) {
+
+.cards{
+  width: 50%;
+  height: 40%;
+}
+}
+
+@media (max-width: 700px) {
+  .cards {
+    width: 40%;
+    height: 30%;
+  }
+}
+
+@media (max-width: 550px) {
+  .cards {
+    width: 30%;
+    height: 20%;
+  }
+}
+
+@media (max-width:420px){
+
+.cards{
+  width: 25%;
+  
+}
+
+}
+
+
+@media (max-width:360px){
+ 
+  .cards{
+    width: 20%;
+  }
+
 }

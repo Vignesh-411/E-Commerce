@@ -30,7 +30,7 @@ const Hero = () => {
           rightPanelRef.current.style.transform = `translateX(${moveDistance}%) rotate(-45deg)`;
         } else {
           // Reset position when scroll is less than 300px
-          // leftPanelRef.current.style.transform = `translateX(0) rotate(-45deg)`;
+          leftPanelRef.current.style.transform = `translateX(0) rotate(-45deg)`;
           rightPanelRef.current.style.transform = `translateX(0) rotate(-45deg)`;
         }
       }

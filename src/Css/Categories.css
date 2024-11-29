@@ -1,3 +1,9 @@
+.Categories {
+  overflow-y: auto; /* Enables vertical scrolling */
+  max-height: 100vh; 
+}
+
+
 .bg-fixed-container::before {
   content: "";
   position: fixed;
@@ -41,7 +47,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white; 
+  background-color: white;
   color: #000000;
   padding: 8px 10px;
   font-size: 1.8rem;
@@ -56,14 +62,13 @@
 }
 
 .image-button:hover {
-  color: white; 
+  color: white;
   border-color: white;
 }
 
-
 .image-button::before,
 .image-button::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   width: 0;
@@ -74,32 +79,42 @@
 }
 
 .image-button::before {
-  left: 50%; 
+  left: 50%;
   transform: translateX(-50%);
 }
 
 .image-button::after {
-  right: 50%; 
-  transform: translateX(50%); 
+  right: 50%;
+  transform: translateX(50%);
 }
 
-
 .image-button:hover::before {
-  width: 100%; 
+  width: 100%;
 }
 
 .image-button:hover::after {
-  width: 100%; 
+  width: 100%;
 }
 
 .image-container:hover .image-button {
-  opacity: 1; 
+  opacity: 1;
 }
-
 
 /* Style for the button */
 .back {
   position: fixed;
+}
+
+.dc {
+  margin-right: 35px;
+  border-radius: 10px;
+  overflow-y: hidden;
+}
+
+.bk {
+  width: 97.5%;
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
 
 /* Tooltip style */
@@ -116,13 +131,595 @@
   z-index: 1;
   top: 90%;
   left: 60%;
-  margin-left: -60px; /* Offset to center */
+  margin-left: -60px;
   opacity: 0;
   transition: opacity 0.3s;
 }
 
-/* Show tooltip on hover */
 .back:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
 }
+
+@media (max-width: 1370px) {
+  .ht {
+    width: 58.8rem;
+  }
+
+  .st {
+    height: 120vh;
+  }
+
+  .shoe {
+    height: 74vh;
+  }
+
+  .toys {
+    height: 78vh;
+  }
+  .dc {
+    width: 42%;
+  }
+
+  .decor {
+    /* width: 2rem; */
+    height: 157.7vh;
+  }
+
+  .book {
+    width: 88rem;
+    height: 50vh;
+  }
+}
+
+@media (max-width: 1090px) {
+  .heading {
+    width: 64rem;
+    font-size: 5rem;
+  }
+
+  .ht {
+    width: 42.8rem;
+  }
+
+  .st {
+    height: 120vh;
+  }
+
+  .shoe {
+    height: 87vh;
+  }
+
+  .toys {
+    height: 85vh;
+  }
+
+  .decor {
+    width: 30.2rem;
+    height: 157vh;
+  }
+
+  .book {
+    width: 65.5rem;
+  }
+}
+
+@media (max-width: 1030px) {
+  .heading {
+    width: 64rem;
+    font-size: 5rem;
+  }
+
+  .ht {
+    width: 38rem;
+  }
+
+  .st {
+    height: 70vh;
+  }
+
+  .shoe {
+    height: 37vh;
+  }
+
+  .toys {
+    height: 36.5vh;
+  }
+
+  .decor {
+    height: 95vh;
+  }
+
+  .book {
+    width: 61rem;
+    height: 50vh;
+  }
+
+}
+
+
+@media (max-width: 970px) {
+  .heading {
+    width: 56rem;
+    font-size: 4rem;
+  }
+  .back {
+    margin-top: -20px;
+  }
+
+  .arrow {
+    width: 50px;
+    height: 2rem;
+    margin-left: -20px;
+  }
+
+  .sale {
+    width: 58.5rem;
+    margin-left: 15px;
+    margin-top: 40px;
+  }
+
+  .image-button {
+    font-size: 0.5rem;
+  }
+
+  .image-container {
+    margin-left: -10px;
+  }
+  .men-women {
+    gap: 20px;
+  }
+
+  .men {
+    width: 80%;
+  }
+  .women {
+    width: 80%;
+    margin-right: 20px;
+  }
+  .ht {
+    width: 40rem;
+    height: 61.5vh;
+  }
+
+  .sh-btn,
+  .ty-btn {
+    width: 5rem;
+  }
+
+  .tech {
+    height: 12rem;
+  }
+
+  .home-appl {
+    height: 22.5rem;
+  }
+  .st {
+    height: 61.5vh;
+  }
+
+  .tyt,
+  .shs {
+    margin-right: 20px;
+    width: 85%;
+  }
+  .shoe {
+    height: 30vh;
+  }
+
+  .toys {
+    height: 29.5vh;
+  }
+
+  .decor {
+    height: 48.5vh;
+    width: 10rem;
+  }
+
+  .dc {
+    width: 50rem;
+  }
+  .book {
+    width: 97%;
+    height: 50vh;
+    margin-left: 20px;
+  }
+}
+
+
+
+@media (max-width: 940px) {
+  .heading {
+    width: 55rem;
+    font-size: 3.5rem;
+  }
+  .back {
+    margin-top: -25px;
+  }
+
+  .arrow {
+    width: 50px;
+    height: 2rem;
+    margin-left: -20px;
+  }
+
+  .sale {
+    width: 50rem;
+    margin-left: 60px;
+    margin-top: 40px;
+  }
+
+  .image-button {
+    font-size: 1rem;
+  }
+
+  .image-container {
+    margin-left: -10px;
+  }
+  .men-women {
+    gap: 20px;
+  }
+
+  .men {
+    width: 80%;
+  }
+  .women {
+    width: 80%;
+    margin-right: 20px;
+  }
+  .ht {
+    width: 40rem;
+    height: 61.5vh;
+  }
+
+  .sh-btn,
+  .ty-btn {
+    width: 9rem;
+  }
+
+  .tech {
+    height: 20rem;
+  }
+
+  .home-appl {
+    height: 22.5rem;
+  }
+  .st {
+    height: 162vh;
+  }
+
+  .tyt,
+  .shs {
+    margin-right: 20px;
+    width: 85%;
+  }
+  .shoe {
+    height: 80vh;
+  }
+
+  .toys {
+    height: 80vh;
+  }
+
+  .decor {
+    height: 229vh;
+    
+  }
+
+  .dc {
+    width: 50rem;
+  }
+  .book {
+    height: 50vh;
+  }
+  
+  .bk{
+    margin-left: 20px;
+    width: 96%;
+  }
+}
+
+
+
+
+@media (max-width: 935px) {
+  .heading {
+    width: 55rem;
+    font-size: 3.5rem;
+  }
+  .back {
+    margin-top: -25px;
+  }
+
+  .arrow {
+    width: 50px;
+    height: 2rem;
+    margin-left: -20px;
+  }
+
+  .sale {
+    width: 50rem;
+    margin-left: 60px;
+    margin-top: 40px;
+  }
+
+  .image-button {
+    font-size: 1rem;
+  }
+
+  .image-container {
+    margin-left: -10px;
+  }
+  .men-women {
+    gap: 20px;
+  }
+
+  .men {
+    width: 80%;
+  }
+  .women {
+    width: 80%;
+    margin-right: 20px;
+  }
+  .ht {
+    width: 40rem;
+    height: 61.5vh;
+  }
+
+  .sh-btn,
+  .ty-btn {
+    width: 9rem;
+  }
+
+  .tech {
+    height: 20rem;
+  }
+
+  .home-appl {
+    height: 22.5rem;
+  }
+  .st {
+    height: 162vh;
+  }
+
+  .tyt,
+  .shs {
+    margin-right: 20px;
+    width: 85%;
+  }
+  .shoe {
+    height: 80vh;
+  }
+
+  .toys {
+    height: 80vh;
+  }
+
+  .decor {
+    height: 229vh;
+    width: 22.8rem;
+    
+  }
+
+  .dc {
+    width: 50rem;
+  }
+  .book {
+    height: 50vh;
+    width: 100%;
+    margin-left: 0px;
+  }
+  
+  .bk{
+    margin-left: 10px;
+    width: 97%;
+  }
+}
+
+
+
+
+@media (max-width: 915px) {
+  .heading {
+    width: 55rem;
+    font-size: 3.5rem;
+  }
+  .back {
+    margin-top: -25px;
+  }
+
+  .arrow {
+    width: 50px;
+    height: 2rem;
+    margin-left: -20px;
+  }
+
+  .sale {
+    width: 50rem;
+    margin-left: 60px;
+    margin-top: 40px;
+  }
+
+  .image-button {
+    font-size: 1rem;
+  }
+
+  .image-container {
+    margin-left: -10px;
+  }
+  .men-women {
+    gap: 20px;
+  }
+
+  .men {
+    width: 80%;
+  }
+  .women {
+    width: 80%;
+    margin-right: 20px;
+  }
+  .ht {
+    width: 40rem;
+    height: 61.5vh;
+  }
+
+  .sh-btn,
+  .ty-btn {
+    width: 9rem;
+  }
+
+  .tech {
+    height: 20rem;
+  }
+
+  .home-appl {
+    height: 22.5rem;
+  }
+  .st {
+    height: 162vh;
+  }
+
+  .tyt,
+  .shs {
+    margin-right: 20px;
+    width: 85%;
+  }
+  .shoe {
+    height: 80vh;
+  }
+
+  .toys {
+    height: 80vh;
+  }
+
+  .decor {
+    height: 229vh;
+    width: 22.8rem;
+    
+  }
+
+  .dc {
+    width: 50rem;
+  }
+  .book {
+    height: 50vh;
+    width: 100%;
+    margin-left: 0px;
+  }
+  
+  .bk{
+    margin-left: 10px;
+    width: 97%;
+  }
+}
+
+
+
+@media (max-width: 440px) {
+  .heading {
+    width: 25rem;
+    font-size: 2rem;
+  }
+  .back {
+    margin-top: -25px;
+  }
+
+  .arrow {
+    width: 50px;
+    height: 2rem;
+    margin-left: -20px;
+  }
+
+  .sale {
+    width: 25rem;
+    margin-left: 15px;
+    margin-top: 40px;
+  }
+
+  .image-button {
+    font-size: 0.5rem;
+  }
+
+  .image-container {
+    margin-left: -10px;
+  }
+  .men-women {
+    gap: 20px;
+  }
+
+  .men {
+    width: 80%;
+  }
+  .women {
+    width: 80%;
+    margin-right: 20px;
+  }
+  .ht {
+    width: 40rem;
+    height: 61.5vh;
+  }
+
+  .sh-btn,
+  .ty-btn {
+    width: 5rem;
+  }
+
+  .tech {
+    height: 12rem;
+  }
+
+  .home-appl {
+    height: 22.5rem;
+  }
+  .st {
+    height: 61.5vh;
+  }
+
+  .tyt,
+  .shs {
+    margin-right: 20px;
+    width: 85%;
+  }
+  .shoe {
+    height: 30vh;
+  }
+
+  .toys {
+    height: 29.5vh;
+  }
+
+  .decor {
+    height: 48.5vh;
+    width: 10rem;
+  }
+
+  .dc {
+    width: 50rem;
+  }
+  .book {
+    width: 97%;
+    height: 50vh;
+    margin-left: 20px;
+  }
+}
+
+
+/* Webkit browsers (Chrome, Edge, Safari) */
+.Categories::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f6da55; /* Background for the scrollbar */
+}
+
+.Categories::-webkit-scrollbar-track {
+  margin-top: 0px; 
+}
+
+.Categories::-webkit-scrollbar-thumb {
+  background-color: #000000; /* Scrollbar handle color */
+  
+}
+
+.Categories::-webkit-scrollbar-thumb:active {
+  background-color: #555555; /* Active state color */
+}
+
