@@ -67,7 +67,7 @@ const SliderPlayer = () => {
           />
           <button
             className="navigate-btn"
-            onClick={() => handleButtonClick("/Categories/Clothing")}
+            onClick={() => handleButtonClick("/Categories")}
           >
             <span>
               VIEW <br />
@@ -82,7 +82,7 @@ const SliderPlayer = () => {
           />
           <button
             className="navigate-btn"
-            onClick={() => handleButtonClick("/Categories/Electronics")}
+            onClick={() => handleButtonClick("/Categories/Electronics/Tech")}
           >
             <span>
               VIEW <br />
@@ -97,7 +97,7 @@ const SliderPlayer = () => {
           />
           <button
             className="navigate-btn"
-            onClick={() => handleButtonClick("/Categories/HomeDecor")}
+            onClick={() => handleButtonClick("/Categories/HomeDecor/Decor")}
           >
             <span>
               VIEW <br />

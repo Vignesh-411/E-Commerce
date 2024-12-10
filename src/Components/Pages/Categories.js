@@ -27,27 +27,38 @@ const Categories = () => {
   };
   return (
     <div className="Categories bg-fixed-container custom-scrollbar overflow-x-hidden">
-          <div className="absolute top-5 left-5 z-20">
+      <div className="absolute top-5 left-5 z-20">
         <button
           onClick={goHome}
           className=" back text-black px-4 py-2 font-bold"
         >
-          <img src={Arrow} alt="arrow" className="h-10 arrow"/>
+          <img src={Arrow} alt="arrow" className="h-10 arrow" />
           <span className="tooltip-text">Go To Home</span>
-
         </button>
       </div>
+
+{/* --------------------------------------------------------------- product categories --------------------------------------------------------------- */}
+
       <div className="Cat-container relative z-10 flex-col overflow-hidden">
         <h1 className=" heading text-center text-8xl uppercase text-white bg-[#0084B5] w-fit pt-5 pb-3 pl-5 pr-5 ml-auto mr-auto mt-10 rounded-xl shadow-custom font-[MyFont3]">
           Product Categories
         </h1>
 
+{/* --------------------------------------------------------------- sale card --------------------------------------------------------------- */}
+
         <div className="flex flex-col gap-5 -mt-5 rounded-xl overflow-hidden w-full ">
           <div className="cat1 h-full w-[calc(100%-50px)] ml-5 mt-12 rounded-xl shadow-custom sale">
-            <img src={Sale} className="w-full h-full object-cover " alt="sale" />
+            <img
+              src={Sale}
+              className="w-full h-full object-cover "
+              alt="sale"
+            />
           </div>
 
-          <div className="flex justify-between gap-5 w-[97%] ml-5 mt-2 men-women" >
+{/* ---------------------------------------------------------------  Men and Women Clothing  --------------------------------------------------------------- */}          
+{/* ---------------------------------------------------------------  Men Clothing  --------------------------------------------------------------- */}          
+
+          <div className="flex justify-between gap-5 w-[97%] ml-5 mt-2 men-women">
             <div className="image-container w-[47%] men">
               <img
                 src={Men}
@@ -61,6 +72,9 @@ const Categories = () => {
                 Shop Men Fashion
               </button>
             </div>
+
+{/* ---------------------------------------------------------------  Women Clothing  --------------------------------------------------------------- */}          
+
             <div className="image-container w-[48%] women">
               <img
                 src={Women}
@@ -76,6 +90,9 @@ const Categories = () => {
             </div>
           </div>
 
+{/* ---------------------------------------------------------------  End of Men and Women Clothing  --------------------------------------------------------------- */}
+
+{/* ---------------------------------------------------------------   Electronics,Home Appliances,Toys,Shoes,  --------------------------------------------------------------- */}
           <div className="flex flex-row gap-3 w-screen h-full ml-5">
             <div className=" ht flex flex-col gap-5">
               <div className="image-container w-[47%]">
@@ -98,7 +115,9 @@ const Categories = () => {
                   alt="Home Appliances"
                 />
                 <button
-                  onClick={() => handleNavigate("/Categories/HomeAppliances/Appliances")}
+                  onClick={() =>
+                    handleNavigate("/Categories/HomeAppliances/Appliances")
+                  }
                   className="image-button"
                 >
                   Shop Home Appliances
@@ -107,38 +126,41 @@ const Categories = () => {
             </div>
 
             <div className="st flex flex-col gap-5 w-[22.3rem] h-full">
-  {/* Shoe Section */}
-  <div className="image-container w-[47%] shs">
-    <img
-      src={Shoe}
-      className="shoe w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] cursor-pointer object-cover shadow-custom"
-      alt="shoe"
-    />
-    <button
-      onClick={() => handleNavigate("/Categories/Shoes/Running")}
-      className="image-button w-[15rem] sh-btn"
-    >
-      Shop Shoes
-    </button>
-  </div>
+              {/* Shoe Section */}
+              <div className="image-container w-[47%] shs">
+                <img
+                  src={Shoe}
+                  className="shoe w-full h-[123vh] cursor-pointer object-cover shadow-custom"
+                  alt="shoe"
+                />
+                <button
+                  onClick={() => handleNavigate("/Categories/Shoes/Running")}
+                  className="image-button w-[15rem] sh-btn"
+                >
+                  Shop Shoes
+                </button>
+              </div>
 
-  {/* Toys Section */}
-  <div className="image-container w-[47%] tyt">
-    <img
-      src={Toys}
-      className="toys w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] cursor-pointer object-cover shadow-custom"
-      alt="Toys"
-    />
-    <button
-      onClick={() => handleNavigate("/Categories/Toys/All")}
-      className="image-button w-[15rem] ty-btn"
-    >
-      Shop Toys
-    </button>
-  </div>
-</div>
-
+              {/* Toys Section */}
+              <div className="image-container w-[47%] tyt">
+                <img
+                  src={Toys}
+                  className="toys w-full h-[122vh] cursor-pointer object-cover shadow-custom"
+                  alt="Toys"
+                />
+                <button
+                  onClick={() => handleNavigate("/Categories/Toys/All")}
+                  className="image-button w-[15rem] ty-btn"
+                >
+                  Shop Toys
+                </button>
+              </div>
+            </div>
           </div>
+
+{/* ---------------------------------------------------------------  End of Electronics,Home Appliances,Toys,Shoes,  --------------------------------------------------------------- */}
+
+{/* ---------------------------------------------------------------  Cosmetics, Tools, Stationery,  --------------------------------------------------------------- */}
 
           <div className="flex flex-row gap-5 w-full ml-5">
             <div className="flex flex-col gap-5 w-[72rem]">
@@ -182,6 +204,11 @@ const Categories = () => {
                 </button>
               </div>
             </div>
+
+{/* ---------------------------------------------------------------  End of Cosmetics, Tools, Stationery,  --------------------------------------------------------------- */}          
+
+{/* ---------------------------------------------------------------  Home Decor, Books,  --------------------------------------------------------------- */}
+
             <div className="image-container dc">
               <img
                 src={Decor}
@@ -211,8 +238,6 @@ const Categories = () => {
           </div>
         </div>
       </div>
-
-      <div className="Cat-list"></div>
     </div>
   );
 };

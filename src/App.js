@@ -8,8 +8,9 @@ import Cart from "./Components/Pages/Cart";
 import Categories from "./Components/Pages/Categories";
 import ProductList from "./Components/Pages/ProductList";
 import Productdetails from "./Components/Pages/Productdetails";
-function App() {
+import { CartProvider } from "./Components/Pages/CartContext";
 
+function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -18,19 +19,51 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<> <Navbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-          <Hero isSidebarOpen={isSidebarOpen} /> <Footer/></>} />
-          <Route path="/Cart" element={<><Cart/></>} />
-          <Route path="/Categories" element={<><Categories/></>} />
-          <Route path="/Categories/:Category/:Type" element={<ProductList />} />
-          <Route path="/Productdetails/:Product-type/:id" element={<Productdetails />} />
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  {" "}
+                  <Navbar
+                    isSidebarOpen={isSidebarOpen}
+                    toggleSidebar={toggleSidebar}
+                  />
+                  <Hero isSidebarOpen={isSidebarOpen} /> <Footer />
+                </>
+              }
+            />
+            <Route
+              path="/Cart"
+              element={
+                <>
+                  <Cart />
+                </>
+              }
+            />
+            <Route
+              path="/Categories"
+              element={
+                <>
+                  <Categories />
+                </>
+              }
+            />
+            <Route
+              path="/Categories/:Category/:Type"
+              element={<ProductList />}
+            />
+            <Route
+              path="/Productdetails/:category/:type/:id"
+              element={<Productdetails />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </div>
   );
 }
 
 export default App;
-
