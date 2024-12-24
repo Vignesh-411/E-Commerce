@@ -76,6 +76,7 @@ import Navbar from "./Components/Navbar";
 import Hero from "./Components/Hero";
 import Footer from "./Components/Footer";
 import Cart from "./Components/Pages/Cart";
+import Checkout from "./Components/Pages/Checkout";
 import Categories from "./Components/Pages/Categories";
 import ProductList from "./Components/Pages/ProductList";
 import Productdetails from "./Components/Pages/Productdetails";
@@ -111,6 +112,7 @@ function App() {
               path="/Productdetails/:category/:type/:id"
               element={<Productdetails />}
             />
+            <Route path="/Cart/Checkout" element={<Checkout/>}></Route>
           </Routes>
         </BrowserRouter>
       </CartProvider>

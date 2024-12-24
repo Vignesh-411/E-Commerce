@@ -1,261 +1,17 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-// import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useCart } from "../Pages/CartContext";
-
-// const Cart = () => {
-//   const { cart, updateCartItem, removeFromCart } = useCart();
-//   const navigate = useNavigate();
-
-//   const [cartItems, setCartItems] = useState(cart);
-//   const [discount, setDiscount] = useState(0);
-//   const [couponCode, setCouponCode] = useState("");
-//   const [couponMessage, setCouponMessage] = useState("");
-
-//   // Sync cartItems with global cart state
-//   useEffect(() => {
-//     setCartItems(cart);
-//   }, [cart]);
-
-//   // Calculate totals
-//   const calculateSubtotal = () => {
-//     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-//   };
-
-//   const calculateGST = () => {
-//     return calculateSubtotal() * 0.18;
-//   };
-
-//   const calculateDiscountedTotal = () => {
-//     return calculateSubtotal() + calculateGST() - discount;
-//   };
-
-//   // Handle coupon code
-//   const handleCouponApply = () => {
-//     const subtotal = calculateSubtotal();
-//     if (subtotal >= 100 && couponCode === "SAVE40") {
-//       setDiscount(40);
-//       setCouponMessage("Coupon applied successfully!");
-//     } else {
-//       setCouponMessage(
-//         subtotal < 100
-//           ? "Total must be greater than $100 to apply the coupon."
-//           : "Invalid coupon code."
-//       );
-//     }
-//     setTimeout(() => setCouponMessage(""), 3000);
-//   };
-
-//   // Handle quantity changes
-//   const handleQuantityChange = (id, quantity) => {
-//     if (quantity <= 0 || isNaN(quantity)) return;
-//     updateCartItem(id, quantity);
-//   };
-
-//   const handleIncrement = (id, currentQuantity) => {
-//     updateCartItem(id, currentQuantity + 1);
-//   };
-
-//   const handleDecrement = (id, currentQuantity) => {
-//     if (currentQuantity > 1) {
-//       updateCartItem(id, currentQuantity - 1);
-//     }
-//   };
-
-//   return (
-//     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-//       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-//         <button
-//           onClick={() => navigate("/categories")}
-//           className="bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-black focus:outline-none"
-//         >
-//           &larr; Back to Categories
-//         </button>
-
-//         <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-//           Cart
-//         </h2>
-
-//         <div className="mt-6 flex flex-col lg:flex-row lg:gap-8">
-//           <div className="flex-1 space-y-6">
-//             {cartItems.length > 0 ? (
-//               cartItems.map((item) => (
-//                 <div
-//                   key={item.id}
-//                   className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
-//                 >
-//                   <div className="flex items-center justify-between">
-//                     <img
-//                       className="h-20 w-20"
-//                       src={item.image}
-//                       alt={item.name}
-//                     />
-//                     <div className="flex-1 px-4">
-//                       <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-//                         {item.name}
-//                       </h3>
-//                       <p className="text-gray-500 dark:text-gray-400">
-//                         {item.description}
-//                       </p>
-//                     </div>
-//                     <div className="flex items-center">
-//                       <button
-//                         onClick={() => handleDecrement(item.id, item.quantity)}
-//                         className="px-2 py-1 text-white bg-gray-600 rounded-l-md hover:bg-gray-700"
-//                       >
-//                         −
-//                       </button>
-//                       <input
-//                         type="number"
-//                         min="1"
-//                         value={item.quantity}
-//                         onChange={(e) =>
-//                           handleQuantityChange(item.id, +e.target.value)
-//                         }
-//                         className="w-16 text-center border px-2 py-1"
-//                       />
-//                       <button
-//                         onClick={() => handleIncrement(item.id, item.quantity)}
-//                         className="px-2 py-1 text-white bg-gray-600 rounded-r-md hover:bg-gray-700"
-//                       >
-//                         +
-//                       </button>
-//                       <p className="ml-4 text-base font-bold text-gray-900 dark:text-white">
-//                         ${(item.price * item.quantity).toFixed(2)}
-//                       </p>
-//                       <button
-//                         onClick={() => removeFromCart(item.id)}
-//                         className="ml-4 text-red-600 hover:underline"
-//                       >
-//                         Remove
-//                       </button>
-//                     </div>
-//                   </div>
-//                 </div>
-//               ))
-//             ) : (
-//               <p className="text-center text-gray-500">Your cart is empty.</p>
-//             )}
-//           </div>
-
-//           <div className="lg:w-1/3 space-y-6">
-//             <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-//               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-//                 Order Summary
-//               </h3>
-
-//               <div className="mt-4 space-y-2">
-//                 <p className="flex justify-between">
-//                   <span>Subtotal</span>
-//                   <span>${calculateSubtotal().toFixed(2)}</span>
-//                 </p>
-//                 <p className="flex justify-between">
-//                   <span>GST (18%)</span>
-//                   <span>${calculateGST().toFixed(2)}</span>
-//                 </p>
-//                 <p className="flex justify-between text-green-600">
-//                   <span>Discount</span>
-//                   <span>- ${discount.toFixed(2)}</span>
-//                 </p>
-//                 <p className="flex justify-between font-bold">
-//                   <span>Total</span>
-//                   <span>${calculateDiscountedTotal().toFixed(2)}</span>
-//                 </p>
-//               </div>
-
-//               <button
-//                 onClick={() => navigate("/checkout")}
-//                 className="mt-4 w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
-//               >
-//                 Proceed to Checkout
-//               </button>
-//             </div>
-
-//             <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-//               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-//                 Apply Coupon
-//               </h3>
-//               <div className="mt-2 flex">
-//                 <input
-//                   type="text"
-//                   placeholder="Enter coupon code"
-//                   value={couponCode}
-//                   onChange={(e) => setCouponCode(e.target.value)}
-//                   className="flex-1 rounded border px-2 py-1"
-//                 />
-//                 <button
-//                   onClick={handleCouponApply}
-//                   className="ml-2 bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
-//                 >
-//                   Apply
-//                 </button>
-//               </div>
-//               {couponMessage && (
-//                 <p className="mt-2 text-sm text-red-500">{couponMessage}</p>
-//               )}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Cart;
+// /* eslint-disable jsx-a11y/img-redundant-alt */
+// /* eslint-disable jsx-a11y/anchor-is-valid */
 
 // import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import { useCart } from "../Pages/CartContext";
+// import { ToastContainer, toast, Bounce } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 // const Cart = () => {
-//   const { cart, incrementCartItem, decrementCartItem, removeFromCart } = useCart();
-//   const navigate = useNavigate();
+//   const [activeButton, setActiveButton] = useState("cart");
 
-//   const [discount, setDiscount] = useState(0);
-//   const [couponCode, setCouponCode] = useState("");
-//   const [couponMessage, setCouponMessage] = useState("");
-
-//   // Calculate totals
-//   const calculateSubtotal = () => {
-//     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-//   };
-
-//   const calculateGST = () => {
-//     return calculateSubtotal() * 0.18;
-//   };
-
-//   const calculateTotalBeforeDiscount = () => {
-//     return calculateSubtotal() + calculateGST();
-//   };
-
-//   const calculateDiscountedTotal = () => {
-//     const totalBeforeDiscount = calculateTotalBeforeDiscount();
-//     return totalBeforeDiscount - discount;
-//   };
-
-//   // Handle coupon code
-//   const handleCouponApply = () => {
-//     const totalBeforeDiscount = calculateTotalBeforeDiscount();
-//     if (totalBeforeDiscount >= 100 && couponCode === "SAVE40" ) {
-//       setDiscount(40);
-//       setCouponMessage("Coupon applied successfully!");
-//     } else {
-//       setCouponMessage(
-//         totalBeforeDiscount < 100
-//           ? "Total must be greater than $100 to apply the coupon."
-//           : "Invalid coupon code."
-//       );
-//     }
-//     setTimeout(() => setCouponMessage(""), 3000);
-//   };
-
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useCart } from "../Pages/CartContext";
-
-// const Cart = () => {
-//   const { cart, incrementCartItem, decrementCartItem, removeFromCart } = useCart();
+//   const { cart, incrementCartItem, decrementCartItem, removeFromCart } =
+//     useCart();
 //   const navigate = useNavigate();
 
 //   const [discount, setDiscount] = useState(0);
@@ -266,8 +22,8 @@
 //   const coupons = [
 //     { code: "SAVE40", type: "fixed", value: 40, minAmount: 100 },
 //     { code: "DISCOUNT10", type: "percentage", value: 10, minAmount: 50 },
-//     { code: "FREESHIP", type: "fixed", value: 20, minAmount: 150 }, 
-//   { code: "SAVE80%", type: "percentage", value: 80, minAmount: 2000 },
+//     { code: "FREESHIP", type: "fixed", value: 20, minAmount: 150 },
+//     { code: "SAVE80%", type: "percentage", value: 80, minAmount: 2000 },
 //   ];
 
 //   // Calculate totals
@@ -292,7 +48,9 @@
 //   const handleCouponApply = () => {
 //     const totalBeforeDiscount = calculateTotalBeforeDiscount();
 
-//     const coupon = coupons.find((c) => c.code === couponCode.trim().toUpperCase());
+//     const coupon = coupons.find(
+//       (c) => c.code === couponCode.trim().toUpperCase()
+//     );
 
 //     if (coupon) {
 //       if (totalBeforeDiscount >= coupon.minAmount) {
@@ -301,34 +59,117 @@
 //         } else if (coupon.type === "percentage") {
 //           setDiscount((totalBeforeDiscount * coupon.value) / 100);
 //         }
-//         setCouponMessage("Coupon applied successfully!");
+//         toast.success("Coupon applied successfully!");
 //       } else {
-//         setCouponMessage(`Minimum Total amount must be greater than  $${coupon.minAmount}.`);
+//         toast.error(
+//           `Minimum Total amount must be greater than $${coupon.minAmount}.`
+//         );
 //       }
 //     } else {
-//       setCouponMessage("Invalid coupon code.");
+//       toast.error("Invalid coupon code.");
 //     }
 
 //     setTimeout(() => setCouponMessage(""), 3000);
 //   };
 
-
 //   return (
-//     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-//       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+//     <section
+//       className="bg-white dark:bg-gray-900"
+//       style={{
+//         position: "fixed",
+//         top: 0,
+//         left: 0,
+//         width: "100%",
+//         height: "100%",
+//         overflow: "hidden",
+//       }}
+//     >
+//       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0 h-full flex flex-col">
 //         <button
 //           onClick={() => navigate("/categories")}
-//           className="bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-black focus:outline-none"
+//           className="bg-blue-700 text-white w-48 font-semibold py-2 px-4 rounded-md hover:bg-black focus:outline-none flex justify-start mb-10 mt-10 -ml-24"
 //         >
 //           &larr; Back to Categories
 //         </button>
+//         <div className="flex justify-center items-center border-b border-gray-200 whitespace-nowrap dark:border-gray-700 mb-4">
+//           <button
+//             onClick={() => setActiveButton("cart")}
+//             className={`inline-flex items-center h-10 px-2 py-2 text-center sm:px-4 whitespace-nowrap focus:outline-none ${
+//               activeButton === "cart"
+//                 ? "text-blue-600 border-b-2 border-blue-500 dark:border-blue-400 dark:text-blue-300 text-lg"
+//                 : "text-gray-700 border-b-2 border-transparent hover:border-gray-400 dark:text-white text-sm"
+//             }`}
+//           >
+//             <svg
+//               xmlns="http://www.w3.org/2000/svg"
+//               width="16"
+//               height="16"
+//               fill="currentColor"
+//               className="bi bi-cart"
+//               viewBox="0 0 16 16"
+//             >
+//               <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+//             </svg>
+//             <span className="mx-1">Cart</span>
+//           </button>
 
-//         <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-//           Cart
-//         </h2>
+//           <button
+//             onClick={() => setActiveButton("address")}
+//             className={`inline-flex items-center h-10 px-2 py-2 text-center sm:px-4 whitespace-nowrap focus:outline-none ${
+//               activeButton === "address"
+//                 ? "text-blue-600 border-b-2 border-blue-500 dark:border-blue-400 dark:text-blue-300 text-lg"
+//                 : "text-gray-700 border-b-2 border-transparent hover:border-gray-400 dark:text-white text-sm"
+//             }`}
+//           >
+//             <svg
+//               xmlns="http://www.w3.org/2000/svg"
+//               className="w-4 h-4 mx-1 sm:w-6 sm:h-6"
+//               fill="none"
+//               viewBox="0 0 24 24"
+//               stroke="currentColor"
+//             >
+//               <path
+//                 strokeLinecap="round"
+//                 strokeLinejoin="round"
+//                 strokeWidth="2"
+//                 d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
+//               />
+//             </svg>
+//             <span className="mx-1">Address</span>
+//           </button>
 
-//         <div className="mt-6 flex flex-col lg:flex-row lg:gap-8">
-//           <div className="flex-1 space-y-6">
+//           {/* Payment Button */}
+//           <button
+//             onClick={() => setActiveButton("payment")}
+//             className={`inline-flex items-center h-10 px-2 py-2 text-center sm:px-4 whitespace-nowrap focus:outline-none ${
+//               activeButton === "payment"
+//                 ? "text-blue-600 border-b-2 border-blue-500 dark:border-blue-400 dark:text-blue-300 text-lg"
+//                 : "text-gray-700 border-b-2 border-transparent hover:border-gray-400 dark:text-white text-sm"
+//             }`}
+//           >
+//             <svg
+//               xmlns="http://www.w3.org/2000/svg"
+//               className="w-4 h-4 mx-1 sm:w-6 sm:h-6"
+//               fill="none"
+//               viewBox="0 0 24 24"
+//               stroke="currentColor"
+//             >
+//               <path
+//                 strokeLinecap="round"
+//                 strokeLinejoin="round"
+//                 strokeWidth="2"
+//                 d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+//               />
+//             </svg>
+//             <span className="mx-1">Payment</span>
+//           </button>
+//         </div>
+
+//         <div className="flex-1 flex overflow-hidden">
+//           <div
+//             className="flex-1 overflow-y-auto space-y-6 pr-4"
+//             style={{ maxHeight: "calc(100% - 150px)" }}
+//           >
 //             {cart.length > 0 ? (
 //               cart.map((item) => (
 //                 <div
@@ -368,9 +209,18 @@
 //                       </p>
 //                       <button
 //                         onClick={() => removeFromCart(item.id)}
-//                         className="ml-4 text-red-600 hover:underline"
+//                         className="ml-4 text-red-400 hover:underline"
 //                       >
-//                         Remove
+//                         <svg
+//                           xmlns="http://www.w3.org/2000/svg"
+//                           width="26"
+//                           height="26"
+//                           fill="currentColor"
+//                           class="bi bi-trash3-fill"
+//                           viewBox="0 0 16 16"
+//                         >
+//                           <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+//                         </svg>
 //                       </button>
 //                     </div>
 //                   </div>
@@ -381,12 +231,11 @@
 //             )}
 //           </div>
 
-//           <div className="lg:w-1/3 space-y-6">
+//           <div className="lg:w-1/3 space-y-6 pl-4">
 //             <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
 //               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
 //                 Order Summary
 //               </h3>
-
 //               <div className="mt-4 space-y-2">
 //                 <p className="flex justify-between">
 //                   <span>Subtotal</span>
@@ -407,7 +256,7 @@
 //               </div>
 
 //               <button
-//                 onClick={() => navigate("/checkout")}
+//                 onClick={() => navigate("/Cart/Checkout")}
 //                 className="mt-4 w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
 //               >
 //                 Proceed to Checkout
@@ -438,39 +287,222 @@
 //               )}
 //               <div className="mt-4 space-y-2">
 //                 <p>
-//                   <strong>Note:</strong> This store offers a 20% discount when using the
-//                   coupon code "SAVE20".
+//                   <strong>Note:</strong> This store offers a 20% discount when
+//                   using the coupon code "SAVE20".
 //                 </p>
 //                 <p>
-//                   <strong>Note:</strong> The store only offers a 40% discount when using the
-//                   coupon code "SAVE40".
+//                   <strong>Note:</strong> The store only offers a 40% discount
+//                   when using the coupon code "SAVE40".
 //                 </p>
 //               </div>
 //             </div>
 //           </div>
 //         </div>
 //       </div>
+//       <ToastContainer
+// position="top-right"
+// autoClose={5000}
+// hideProgressBar={false}
+// newestOnTop={false}
+// closeOnClick={false}
+// rtl={false}
+// pauseOnFocusLoss
+// draggable
+// pauseOnHover
+// theme="light"
+// transition={Bounce}
+// />
 //     </section>
 //   );
 // };
 
 // export default Cart;
+// import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useCart } from "../Pages/CartContext";
+// import { ToastContainer, toast, Bounce } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+// const Cart = () => {
+//   const [activeButton, setActiveButton] = useState("cart");
+
+//   const { cart, incrementCartItem, decrementCartItem, removeFromCart } =
+//     useCart();
+//   const navigate = useNavigate();
+
+//   const [discount, setDiscount] = useState(0);
+//   const [couponCode, setCouponCode] = useState("");
+//   const [address, setAddress] = useState({
+//     name: "",
+//     email: "",
+//     phone: "",
+//     street: "",
+//     city: "",
+//     state: "",
+//     zip: "",
+//   });
+
+//   const coupons = [
+//     { code: "SAVE40", type: "fixed", value: 40, minAmount: 100 },
+//     { code: "DISCOUNT10", type: "percentage", value: 10, minAmount: 50 },
+//     { code: "FREESHIP", type: "fixed", value: 20, minAmount: 150 },
+//     { code: "SAVE80%", type: "percentage", value: 80, minAmount: 2000 },
+//   ];
+
+//   const calculateSubtotal = () => {
+//     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+//   };
+
+//   const calculateGST = () => {
+//     return calculateSubtotal() * 0.18;
+//   };
+
+//   const calculateTotalBeforeDiscount = () => {
+//     return calculateSubtotal() + calculateGST();
+//   };
+
+//   const calculateDiscountedTotal = () => {
+//     return calculateTotalBeforeDiscount() - discount;
+//   };
+
+//   const handleCouponApply = () => {
+//     const totalBeforeDiscount = calculateTotalBeforeDiscount();
+
+//     const coupon = coupons.find(
+//       (c) => c.code === couponCode.trim().toUpperCase()
+//     );
+
+//     if (coupon) {
+//       if (totalBeforeDiscount >= coupon.minAmount) {
+//         if (coupon.type === "fixed") {
+//           setDiscount(coupon.value);
+//         } else if (coupon.type === "percentage") {
+//           setDiscount((totalBeforeDiscount * coupon.value) / 100);
+//         }
+//         toast.success("Coupon applied successfully!");
+//       } else {
+//         toast.error(
+//           `Minimum Total amount must be greater than $${coupon.minAmount}.`
+//         );
+//       }
+//     } else {
+//       toast.error("Invalid coupon code.");
+//     }
+//   };
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setAddress((prev) => ({ ...prev, [name]: value }));
+//   };
+
+//   const handleProceedToPayment = () => {
+//     if (
+//       !address.name ||
+//       !address.email ||
+//       !address.phone ||
+//       !address.street ||
+//       !address.city ||
+//       !address.state ||
+//       !address.zip
+//     ) {
+//       toast.error("Please fill in all the fields!");
+//       return;
+//     }
+//     toast.success("Address saved successfully!");
+//     setTimeout(() => setActiveButton("payment"), 2000);
+//   };
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Pages/CartContext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
-  const { cart, incrementCartItem, decrementCartItem, removeFromCart } = useCart();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Card");
+  const [paymentDetails, setPaymentDetails] = useState({
+    cardNumber: "",
+    expiry: "",
+    cvv: "",
+    cardHolder: "",
+    upiId: "",
+    paypalEmail: "",
+  });
+
+  // Handle UPI ID verification
+  const handleVerifyUpiId = () => {
+    if (paymentDetails.upiId) {
+      alert(`UPI ID ${paymentDetails.upiId} verified successfully!`);
+    } else {
+      alert("Please enter a valid UPI ID.");
+    }
+  };
+
+  // Handle PayLater confirmation
+  const handleConfirmPayLater = () => {
+    alert("PayLater option selected. Please complete payment within 30 days.");
+  };
+
+  // Handle final order confirmation
+  const handleConfirmOrder = () => {
+    if (selectedPaymentMethod === "Card" && !paymentDetails.cardNumber) {
+      alert("Please fill in all card details.");
+      return;
+    }
+
+    if (selectedPaymentMethod === "UPI" && !paymentDetails.upiId) {
+      alert("Please enter a valid UPI ID.");
+      return;
+    }
+
+    if (selectedPaymentMethod === "PayPal" && !paymentDetails.paypalEmail) {
+      alert("Please enter a valid PayPal email.");
+      return;
+    }
+
+    alert(`Payment successful with ${selectedPaymentMethod}!`);
+  };
+  const [activeButton, setActiveButton] = useState("cart");
+
+  const { cart, incrementCartItem, decrementCartItem, removeFromCart } =
+    useCart();
   const navigate = useNavigate();
 
   const [discount, setDiscount] = useState(0);
   const [couponCode, setCouponCode] = useState("");
-  const [couponMessage, setCouponMessage] = useState("");
+  const [savedAddresses, setSavedAddresses] = useState([
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john@example.com",
+      phone: "1234567890",
+      street: "123 Elm Street",
+      city: "New York",
+      state: "NY",
+      zip: "10001",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "jane@example.com",
+      phone: "0987654321",
+      street: "456 Oak Avenue",
+      city: "Los Angeles",
+      state: "CA",
+      zip: "90001",
+    },
+  ]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+  });
 
-  // List of available coupons
   const coupons = [
     { code: "SAVE40", type: "fixed", value: 40, minAmount: 100 },
     { code: "DISCOUNT10", type: "percentage", value: 10, minAmount: 50 },
@@ -478,7 +510,6 @@ const Cart = () => {
     { code: "SAVE80%", type: "percentage", value: 80, minAmount: 2000 },
   ];
 
-  // Calculate totals
   const calculateSubtotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
@@ -492,15 +523,15 @@ const Cart = () => {
   };
 
   const calculateDiscountedTotal = () => {
-    const totalBeforeDiscount = calculateTotalBeforeDiscount();
-    return totalBeforeDiscount - discount;
+    return calculateTotalBeforeDiscount() - discount;
   };
 
-  // Handle coupon code
   const handleCouponApply = () => {
     const totalBeforeDiscount = calculateTotalBeforeDiscount();
 
-    const coupon = coupons.find((c) => c.code === couponCode.trim().toUpperCase());
+    const coupon = coupons.find(
+      (c) => c.code === couponCode.trim().toUpperCase()
+    );
 
     if (coupon) {
       if (totalBeforeDiscount >= coupon.minAmount) {
@@ -511,89 +542,485 @@ const Cart = () => {
         }
         toast.success("Coupon applied successfully!");
       } else {
-        toast.error(`Minimum Total amount must be greater than $${coupon.minAmount}.`);
+        toast.error(
+          `Minimum Total amount must be greater than $${coupon.minAmount}.`
+        );
       }
     } else {
       toast.error("Invalid coupon code.");
     }
+  };
 
-    setTimeout(() => setCouponMessage(""), 3000);
+  const handleNewAddressChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveNewAddress = () => {
+    if (
+      !newAddress.name ||
+      !newAddress.email ||
+      !newAddress.phone ||
+      !newAddress.street ||
+      !newAddress.city ||
+      !newAddress.state ||
+      !newAddress.zip
+    ) {
+      toast.error("Please fill in all the fields!");
+      return;
+    }
+    setSavedAddresses((prev) => [...prev, { ...newAddress, id: Date.now() }]);
+    setSelectedAddressId(Date.now());
+    toast.success("Address saved successfully!");
+    setNewAddress({
+      name: "",
+      email: "",
+      phone: "",
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
+    });
+  };
+
+  const handleProceedToPayment = () => {
+    if (!selectedAddressId) {
+      toast.error("Please select an address!");
+      return;
+    }
+    toast.success("Address selected successfully!");
+    setTimeout(() => setActiveButton("payment"), 2000);
+  };
+
+  const renderActiveSection = () => {
+    switch (activeButton) {
+      case "cart":
+        return cart.length > 0 ? (
+          cart.map((item) => (
+            <div
+              key={item.id}
+              className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            >
+              <div className="flex items-center justify-between">
+                <img className="h-20 w-20" src={item.image} alt={item.name} />
+                <div className="flex-1 px-4">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                    {item.name}
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    {item.description}
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <button
+                    onClick={() => decrementCartItem(item.id)}
+                    className="px-2 py-1 text-white bg-gray-600 rounded-l-md hover:bg-gray-700"
+                  >
+                    −
+                  </button>
+                  <p className="mx-2 w-8 text-center">{item.quantity}</p>
+                  <button
+                    onClick={() => incrementCartItem(item.id)}
+                    className="px-2 py-1 text-white bg-gray-600 rounded-r-md hover:bg-gray-700"
+                  >
+                    +
+                  </button>
+                  <p className="ml-4 text-base font-bold text-gray-900 dark:text-white">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="ml-4 text-red-400 hover:text-red-600"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      fill="currentColor"
+                      className="bi bi-trash3-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">Your cart is empty.</p>
+        );
+
+        case "address":
+        return (
+          <div className="text-gray-700 dark:text-white">
+            <div className="mx-auto max-w-screen-lg px-4 py-8">
+              <h2 className="text-2xl font-bold mb-4">Select Address</h2>
+              <div className="space-y-4">
+                {savedAddresses.map((addr) => (
+                  <label
+                    key={addr.id}
+                    className={`flex items-center space-x-4 p-4 border-2 rounded ${
+                      selectedAddressId === addr.id
+                        ? "border-blue-500"
+                        : "border-gray-300"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="selectedAddress"
+                      value={addr.id}
+                      checked={selectedAddressId === addr.id}
+                      onChange={() => setSelectedAddressId(addr.id)}
+                      className="h-4 w-4 accent-blue-600"
+                    />
+                    <div>
+                      <p className="font-medium">{addr.name}</p>
+                      <p>{`${addr.street}, ${addr.city}, ${addr.state} - ${addr.zip}`}</p>
+                      <p>{`Phone: ${addr.phone}`}</p>
+                    </div>
+                  </label>
+                ))}
+              </div>
+              <h3 className="text-xl font-bold mt-6">Add New Address</h3>
+              <div className="space-y-4 mt-4">
+                <input
+                  type="text"
+                  name="name"
+                  value={newAddress.name}
+                  onChange={handleNewAddressChange}
+                  placeholder="Full Name"
+                  className="w-full p-2 border rounded"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={newAddress.email}
+                  onChange={handleNewAddressChange}
+                  placeholder="Email"
+                  className="w-full p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  name="phone"
+                  value={newAddress.phone}
+                  onChange={handleNewAddressChange}
+                  placeholder="Phone Number"
+                  className="w-full p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  name="street"
+                  value={newAddress.street}
+                  onChange={handleNewAddressChange}
+                  placeholder="Street Address"
+                  className="w-full p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  name="city"
+                  value={newAddress.city}
+                  onChange={handleNewAddressChange}
+                  placeholder="City"
+                  className="w-full p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  name="state"
+                  value={newAddress.state}
+                  onChange={handleNewAddressChange}
+                  placeholder="State"
+                  className="w-full p-2 border rounded"
+                />
+                <input
+                  type="text"
+                  name="zip"
+                  value={newAddress.zip}
+                  onChange={handleNewAddressChange}
+                  placeholder="ZIP Code"
+                  className="w-full p-2 border rounded"
+                />
+                <button
+                  onClick={handleSaveNewAddress}
+                  className="w-full bg-green-700 text-white py-2 px-4 rounded hover:bg-green-800"
+                >
+                  Save New Address
+                </button>
+              </div>
+              <button
+                onClick={handleProceedToPayment}
+                className="mt-6 w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
+              >
+                Proceed to Payment
+              </button>
+            </div>
+          </div>
+        );
+
+      case "payment":
+        return (
+          <div className="text-gray-700 dark:text-white">
+            <div className="mx-auto max-w-screen-lg px-4 py-8">
+              <h2 className="text-2xl font-bold mb-4">Select Payment Method</h2>
+
+              {/* Payment Method Options */}
+              <div className="space-y-4">
+                {["Card", "UPI", "PayPal", "PayLater"].map((method) => (
+                  <label
+                    key={method}
+                    className={`flex items-center space-x-4 p-4 border rounded ${
+                      selectedPaymentMethod === method
+                        ? "border-blue-500"
+                        : "border-gray-300"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={method}
+                      checked={selectedPaymentMethod === method}
+                      onChange={() => setSelectedPaymentMethod(method)}
+                      className="h-4 w-4 accent-blue-600"
+                    />
+                    <p className="font-medium">{method}</p>
+                  </label>
+                ))}
+              </div>
+
+              {/* Dynamic Input Fields Based on Payment Method */}
+              <div className="mt-6">
+                {selectedPaymentMethod === "Card" && (
+                  <div className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="Card Number"
+                      value={paymentDetails.cardNumber}
+                      onChange={(e) =>
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          cardNumber: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded"
+                    />
+                    <div className="flex space-x-4">
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        value={paymentDetails.expiry}
+                        onChange={(e) =>
+                          setPaymentDetails({
+                            ...paymentDetails,
+                            expiry: e.target.value,
+                          })
+                        }
+                        className="w-1/2 p-2 border rounded"
+                      />
+                      <input
+                        type="text"
+                        placeholder="CVV"
+                        value={paymentDetails.cvv}
+                        onChange={(e) =>
+                          setPaymentDetails({
+                            ...paymentDetails,
+                            cvv: e.target.value,
+                          })
+                        }
+                        className="w-1/2 p-2 border rounded"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Card Holder Name"
+                      value={paymentDetails.cardHolder}
+                      onChange={(e) =>
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          cardHolder: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded"
+                    />
+                  </div>
+                )}
+
+                {selectedPaymentMethod === "UPI" && (
+                  <div className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="Enter UPI ID"
+                      value={paymentDetails.upiId}
+                      onChange={(e) =>
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          upiId: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded"
+                    />
+                    <button
+                      onClick={handleVerifyUpiId}
+                      className="w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
+                    >
+                      Verify UPI ID
+                    </button>
+                  </div>
+                )}
+
+                {selectedPaymentMethod === "PayPal" && (
+                  <div className="space-y-4">
+                    <input
+                      type="email"
+                      placeholder="PayPal Email"
+                      value={paymentDetails.paypalEmail}
+                      onChange={(e) =>
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          paypalEmail: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded"
+                    />
+                  </div>
+                )}
+
+                {selectedPaymentMethod === "PayLater" && (
+                  <div className="space-y-4">
+                    <p className="text-gray-700">
+                      PayLater allows you to complete your payment within 30
+                      days.
+                    </p>
+                    <button
+                      onClick={handleConfirmPayLater}
+                      className="w-full bg-green-700 text-white py-2 px-4 rounded hover:bg-green-800"
+                    >
+                      Proceed with PayLater
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Confirm Payment Button */}
+              <button
+                onClick={handleConfirmOrder}
+                className="mt-6 w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
+              >
+                Confirm Order
+              </button>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
   };
 
   return (
-    <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <section
+      className="bg-white dark:bg-gray-900"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
+      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0 h-full flex flex-col">
         <button
           onClick={() => navigate("/categories")}
-          className="bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-black focus:outline-none"
+          className="bg-blue-700 text-white w-48 font-semibold py-2 px-4 rounded-md hover:bg-black focus:outline-none flex justify-start mb-10 mt-10 -ml-24"
         >
           &larr; Back to Categories
         </button>
+        <div className="flex justify-center items-center border-b border-gray-200 whitespace-nowrap dark:border-gray-700 mb-4">
+          <button
+            onClick={() => setActiveButton("cart")}
+            className={`inline-flex items-center h-10 px-2 py-2 text-center sm:px-4 whitespace-nowrap focus:outline-none ${
+              activeButton === "cart"
+                ? "text-blue-600 border-b-2 border-blue-500 dark:border-blue-400 dark:text-blue-300 text-lg"
+                : "text-gray-700 border-b-2 border-transparent hover:border-gray-400 dark:text-white text-sm"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="18"
+              fill="currentColor"
+              className="bi bi-cart mr-1"
+              viewBox="0 0 16 16"
+            >
+              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+            </svg>
+            Cart
+          </button>
 
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-          Cart
-        </h2>
+          <button
+            onClick={() => setActiveButton("address")}
+            className={`inline-flex items-center h-10 px-2 py-2 text-center sm:px-4 whitespace-nowrap focus:outline-none ${
+              activeButton === "address"
+                ? "text-blue-600 border-b-2 border-blue-500 dark:border-blue-400 dark:text-blue-300 text-lg"
+                : "text-gray-700 border-b-2 border-transparent hover:border-gray-400 dark:text-white text-sm"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4 mx-1 sm:w-6 sm:h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
+              />
+            </svg>
+            Address
+          </button>
 
-        <div className="mt-6 flex flex-col lg:flex-row lg:gap-8">
-          <div className="flex-1 space-y-6">
-            {cart.length > 0 ? (
-              cart.map((item) => (
-                <div
-                  key={item.id}
-                  className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
-                >
-                  <div className="flex items-center justify-between">
-                    <img
-                      className="h-20 w-20"
-                      src={item.image}
-                      alt={item.name}
-                    />
-                    <div className="flex-1 px-4">
-                      <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                        {item.name}
-                      </h3>
-                      <p className="text-gray-500 dark:text-gray-400">
-                        {item.description}
-                      </p>
-                    </div>
-                    <div className="flex items-center">
-                      <button
-                        onClick={() => decrementCartItem(item.id)}
-                        className="px-2 py-1 text-white bg-gray-600 rounded-l-md hover:bg-gray-700"
-                      >
-                        −
-                      </button>
-                      <p className="mx-2 w-8 text-center">{item.quantity}</p>
-                      <button
-                        onClick={() => incrementCartItem(item.id)}
-                        className="px-2 py-1 text-white bg-gray-600 rounded-r-md hover:bg-gray-700"
-                      >
-                        +
-                      </button>
-                      <p className="ml-4 text-base font-bold text-gray-900 dark:text-white">
-                        ${(item.price * item.quantity).toFixed(2)}
-                      </p>
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="ml-4 text-red-600 hover:underline"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-500">Your cart is empty.</p>
-            )}
+          <button
+            onClick={() => setActiveButton("payment")}
+            className={`inline-flex items-center h-10 px-2 py-2 text-center sm:px-4 whitespace-nowrap focus:outline-none ${
+              activeButton === "payment"
+                ? "text-blue-600 border-b-2 border-blue-500 dark:border-blue-400 dark:text-blue-300 text-lg"
+                : "text-gray-700 border-b-2 border-transparent hover:border-gray-400 dark:text-white text-sm"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-4 h-4 mx-1 sm:w-6 sm:h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+              />
+            </svg>
+            Payment
+          </button>
+        </div>
+
+        <div className="flex-1 flex overflow-hidden">
+          <div
+            className="flex-1 overflow-y-auto space-y-6 pr-4"
+            style={{ maxHeight: "calc(100% - 150px)" }}
+          >
+            {renderActiveSection()}
           </div>
 
-          <div className="lg:w-1/3 space-y-6">
+          <div className="lg:w-1/3 space-y-6 pl-4">
             <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 Order Summary
               </h3>
-
               <div className="mt-4 space-y-2">
                 <p className="flex justify-between">
                   <span>Subtotal</span>
@@ -614,10 +1041,22 @@ const Cart = () => {
               </div>
 
               <button
-                onClick={() => navigate("/checkout")}
+                onClick={() => {
+                  if (activeButton === "cart") {
+                    setActiveButton("address"); // Move to the Address section
+                  } else if (activeButton === "address") {
+                    setActiveButton("payment"); // Move to the Payment section
+                  } else if (activeButton === "payment") {
+                    navigate("/Cart/Checkout"); // Navigate to the final Checkout page
+                  }
+                }}
                 className="mt-4 w-full bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
               >
-                Proceed to Checkout
+                {activeButton === "cart"
+                  ? "Proceed to Address"
+                  : activeButton === "address"
+                  ? "Proceed to Payment"
+                  : "Proceed to Checkout"}
               </button>
             </div>
 
@@ -640,562 +1079,25 @@ const Cart = () => {
                   Apply
                 </button>
               </div>
-              {couponMessage && (
-                <p className="mt-2 text-sm text-red-500">{couponMessage}</p>
-              )}
-              <div className="mt-4 space-y-2">
-                <p>
-                  <strong>Note:</strong> This store offers a 20% discount when using the
-                  coupon code "SAVE20".
-                </p>
-                <p>
-                  <strong>Note:</strong> The store only offers a 40% discount when using the
-                  coupon code "SAVE40".
-                </p>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </section>
   );
 };
 
 export default Cart;
-
-
-
-// import React, { useState, useEffect } from "react";
-// import { useCart } from "../Pages/CartContext";
-
-// const CartPage = () => {
-//   const { cart, removeFromCart, updateCartItem } = useCart();
-//   const [couponCode, setCouponCode] = useState("");
-//   const [discount, setDiscount] = useState(0);
-//   const [couponMessage, setCouponMessage] = useState("");
-
-//   // Calculate totals
-//   const calculateSubtotal = () =>
-//     cart.reduce((total, item) => total + item.price * item.quantity, 0);
-
-//   const calculateGST = () => calculateSubtotal() * 0.18;
-
-//   const calculateTotal = () =>
-//     calculateSubtotal() + calculateGST() - discount;
-
-//   // Apply coupon code
-//   const handleApplyCoupon = (e) => {
-//     e.preventDefault();
-//     if (couponCode === "SAVE20" && calculateSubtotal() >= 100) {
-//       setDiscount(20);
-//       setCouponMessage("Coupon applied successfully!");
-//     } else {
-//       setCouponMessage(
-//         "Invalid coupon code or minimum subtotal not met (min $100)."
-//       );
-//     }
-//     setTimeout(() => setCouponMessage(""), 3000);
-//   };
-
-//   // Handle quantity changes
-//   const handleQuantityChange = (id, newQuantity) => {
-//     if (newQuantity <= 0) return;
-//     updateCartItem(id, newQuantity);
-//   };
-
-//   // Handle item removal
-//   const handleRemoveItem = (id) => {
-//     removeFromCart(id);
-//   };
-
-//   return (
-//     <div className="container mx-auto py-8">
-//       <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
-//       {cart.length > 0 ? (
-//         <div className="flex flex-col md:flex-row gap-6">
-//           {/* Cart Items */}
-//           <div className="flex-1">
-//             {cart.map((item) => (
-//               <div
-//                 key={item.id}
-//                 className="flex items-center justify-between bg-white shadow-md rounded-lg p-4 mb-4"
-//               >
-//                 <div className="flex items-center gap-4">
-//                   <img
-//                     src={item.image || "https://via.placeholder.com/150"}
-//                     alt={item.name}
-//                     className="w-16 h-16 object-cover rounded"
-//                   />
-//                   <div>
-//                     <h2 className="text-lg font-semibold">{item.name}</h2>
-//                     <p className="text-gray-600">${item.price}</p>
-//                   </div>
-//                 </div>
-//                 <div className="flex items-center gap-4">
-//                   <button
-//                     onClick={() =>
-//                       handleQuantityChange(item.id, item.quantity - 1)
-//                     }
-//                     className="px-2 py-1 bg-gray-200 rounded"
-//                   >
-//                     -
-//                   </button>
-//                   <input
-//                     type="number"
-//                     value={item.quantity}
-//                     onChange={(e) =>
-//                       handleQuantityChange(
-//                         item.id,
-//                         parseInt(e.target.value, 10)
-//                       )
-//                     }
-//                     className="w-12 text-center border rounded"
-//                   />
-//                   <button
-//                     onClick={() =>
-//                       handleQuantityChange(item.id, item.quantity + 1)
-//                     }
-//                     className="px-2 py-1 bg-gray-200 rounded"
-//                   >
-//                     +
-//                   </button>
-//                   <button
-//                     onClick={() => handleRemoveItem(item.id)}
-//                     className="text-red-600 hover:underline"
-//                   >
-//                     Remove
-//                   </button>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-
-//           {/* Order Summary */}
-//           <div className="w-full md:w-1/3 bg-white shadow-md rounded-lg p-6">
-//             <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-//             <div className="flex justify-between mb-2">
-//               <span>Subtotal</span>
-//               <span>${calculateSubtotal().toFixed(2)}</span>
-//             </div>
-//             <div className="flex justify-between mb-2">
-//               <span>GST (18%)</span>
-//               <span>${calculateGST().toFixed(2)}</span>
-//             </div>
-//             <div className="flex justify-between mb-4 text-green-600">
-//               <span>Discount</span>
-//               <span>- ${discount.toFixed(2)}</span>
-//             </div>
-//             <hr className="my-4" />
-//             <div className="flex justify-between text-lg font-bold">
-//               <span>Total</span>
-//               <span>${calculateTotal().toFixed(2)}</span>
-//             </div>
-//             <button
-//               className="w-full mt-4 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-//               onClick={() => alert("Proceeding to checkout...")}
-//             >
-//               Proceed to Checkout
-//             </button>
-//           </div>
-//         </div>
-//       ) : (
-//         <div className="text-center">
-//           <h2 className="text-2xl font-semibold mb-4">Your cart is empty</h2>
-//           <p>Add some products to see them here!</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CartPage;
-
-// import React, { useContext } from "react";
-// import { CartContext } from "../Pages/CartContext";
-
-// const Cart = () => {
-//     const { cart, removeFromCart, clearCart } = useContext(CartContext);
-
-//     return (
-//         <div>
-//             <h2>Your Cart</h2>
-//             {cart.length === 0 ? (
-//                 <p>The cart is empty.</p>
-//             ) : (
-//                 <ul>
-//                     {cart.map((item) => (
-//                         <li key={item.id}>
-//                             {item.name} - {item.quantity} x {item.price}
-//                             <button onClick={() => removeFromCart(item.id)}>Remove</button>
-//                         </li>
-//                     ))}
-//                 </ul>
-//             )}
-//             {cart.length > 0 && <button onClick={clearCart}>Clear Cart</button>}
-//         </div>
-//     );
-// };
-
-// export default Cart;
-
-// import React from "react";
-// import { useCart } from "../Pages/CartContext";
-
-// const Cart = () => {
-//     const { cart, removeFromCart, clearCart } = useCart();
-
-//     // Calculate the total price of the cart
-//     const getTotalPrice = () => {
-//         return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-//     };
-
-//     // Confirm before clearing the cart
-//     const handleClearCart = () => {
-//         if (window.confirm("Are you sure you want to clear the cart?")) {
-//             clearCart();
-//         }
-//     };
-
-//     return (
-//         <div className="cart-container">
-//             <h2>Your Cart</h2>
-//             {cart.length === 0 ? (
-//                 <p>The cart is empty.</p>
-//             ) : (
-//                 <div>
-//                     <ul className="cart-list">
-//                         {cart.map((item) => (
-//                             <li key={item.id} className="cart-item">
-//                                 <div>
-//                                     <h3>{item.name}</h3>
-//                                     <p>Price: ${item.price.toFixed(2)}</p>
-//                                     <p>Quantity: {item.quantity}</p>
-//                                     <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
-//                                 </div>
-//                                 <button
-//                                     className="remove-btn"
-//                                     onClick={() => removeFromCart(item.id)}
-//                                 >
-//                                     Remove
-//                                 </button>
-//                             </li>
-//                         ))}
-//                     </ul>
-//                     <div className="cart-total">
-//                         <h3>Grand Total: ${getTotalPrice()}</h3>
-//                     </div>
-//                     <button className="clear-cart-btn" onClick={handleClearCart}>
-//                         Clear Cart
-//                     </button>
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default Cart;
-
-// import React from "react";
-// import { useCart } from "../Pages/CartContext";
-
-// const Cart = () => {
-//     const { cart, removeFromCart, clearCart } = useCart();
-
-//     // Calculate the total price of the cart
-//     const getTotalPrice = () => {
-//         return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-//     };
-
-//     // Confirm before clearing the cart
-//     const handleClearCart = () => {
-//         if (window.confirm("Are you sure you want to clear the cart?")) {
-//             clearCart();
-//         }
-//     };
-
-//     return (
-//         <div className="cart-container">
-//             <h2>Your Cart</h2>
-//             {cart.length === 0 ? (
-//                 <p>The cart is empty.</p>
-//             ) : (
-//                 <div>
-//                     <ul className="cart-list">
-//                         {cart.map((item) => (
-//                             <li key={item.id} className="cart-item">
-//                                 <div>
-//                                     <h3>{item.name}</h3>
-//                                     <p>Price: ${item.price.toFixed(2)}</p>
-//                                     <p>Quantity: {item.quantity}</p>
-//                                     <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
-//                                 </div>
-//                                 <button
-//                                     className="remove-btn"
-//                                     onClick={() => removeFromCart(item.id)}
-//                                 >
-//                                     Remove
-//                                 </button>
-//                             </li>
-//                         ))}
-//                     </ul>
-//                     <div className="cart-total">
-//                         <h3>Grand Total: ${getTotalPrice()}</h3>
-//                     </div>
-//                     <button className="clear-cart-btn" onClick={handleClearCart}>
-//                         Clear Cart
-//                     </button>
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default Cart;
-
-
-// import { useState, useEffect } from "react";
-// import { 
-//   // useLocation,
-//    useNavigate } from "react-router-dom";
-// import { useCart } from "../Pages/CartContext";
-// import {Product} from "../Pages/Product";
-// const Cart = () => {
-//   const { cart, updateCartItem, removeFromCart } = useCart();
-//   // const location = useLocation();
-//   const navigate = useNavigate();
-
-//   const [cartItems, setCartItems] = useState(cart);
-//   const [discount, setDiscount] = useState(0);
-//   const [couponCode, setCouponCode] = useState("");
-//   const [couponMessage, setCouponMessage] = useState("");
-
-//   // Sync cartItems with global cart state
-//   useEffect(() => {
-//     setCartItems(cart);
-//   }, [cart]);
-
-//   // Calculate totals
-//   const calculateSubtotal = () =>
-//     cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-
-//   const calculateGST = () => calculateSubtotal() * 0.18;
-
-//   const calculateDiscountedTotal = () => {
-//     const subtotal = calculateSubtotal();
-//     const GST = calculateGST();
-//     return subtotal + GST - discount;
-//   };
-
-//   // Apply coupon
-//   const handleCouponApply = (e) => {
-//     e.preventDefault();
-//     if (calculateSubtotal() >= 100 && couponCode === "SAVE40") {
-//       setDiscount(40);
-//       setCouponMessage("Coupon applied successfully!");
-//     } else {
-//       setCouponMessage(
-//         calculateSubtotal() < 100
-//           ? "Total must be greater than $100 to apply the coupon."
-//           : "Invalid coupon code."
-//       );
-//     }
-//     setTimeout(() => setCouponMessage(""), 3000);
-//   };
-
-//   // Handle quantity changes
-//   const handleQuantityChange = (id, newQty) => {
-//     if (newQty <= 0) return;
-//     updateCartItem(id, newQty);
-//   };
-
-//   // Increment and decrement quantity
-//   const handleIncrement = (id, currentQty) => {
-//     handleQuantityChange(id, currentQty + 1);
-//   };
-
-//   const handleDecrement = (id, currentQty) => {
-//     if (currentQty > 1) {
-//       handleQuantityChange(id, currentQty - 1);
-//     }
-//   };
-
-//   // Remove item from cart
-//   const handleRemoveItem = (id) => {
-//     removeFromCart(id);
-//   };
-
-//   // Navigation
-//   const handleCheckout = () => {
-//     navigate("/checkout");
-//   };
-
-//   const handleGoToCategories = () => {
-//     navigate("/categories");
-//   };
-
-//   return (
-//     <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-//       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-//         <button
-//           onClick={handleGoToCategories}
-//           className="bg-blue-700 text-white flex float-left font-semibold py-2 px-4 rounded-md -mt-4 -ml-28 hover:bg-black focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-//         >
-//           &larr; Back to Categories
-//         </button>
-//         <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl mr-14">
-//           CART
-//         </h2>
-
-//         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-//           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
-//             {cartItems.length > 0 ? (
-//               <div className="space-y-6">
-//                 {cartItems.map((item) => (
-//                   <div
-//                     key={item.id}
-//                     className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
-//                   >
-//                     <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-//                       <img
-//                         className="h-20 w-20"
-//                         src={item.image || "https://via.placeholder.com/150"}
-//                         alt={item.name}
-//                       />
-//                       <div className="flex items-center">
-//                         <button
-//                           type="button"
-//                           onClick={() =>
-//                             handleDecrement(item.id, item.quantity)
-//                           }
-//                           className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
-//                         >
-//                           -
-//                         </button>
-//                         <input
-//                           type="text"
-//                           className="w-10 border-0 bg-transparent text-center text-sm font-medium"
-//                           value={item.quantity}
-//                           readOnly
-//                         />
-//                         <button
-//                           type="button"
-//                           onClick={() =>
-//                             handleIncrement(item.id, item.quantity)
-//                           }
-//                           className="inline-flex h-5 w-5 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
-//                         >
-//                           +
-//                         </button>
-//                       </div>
-//                       <div className="text-end">
-//                         <p className="text-base font-bold text-gray-900 dark:text-white">
-//                           ${item.price}
-//                         </p>
-//                       </div>
-//                       <div className="w-full">
-//                         <p className="text-base font-medium">{item.name}</p>
-//                         <p className="text-sm text-gray-500">
-//                           {item.description}
-//                         </p>
-//                         <button
-//                           onClick={() => handleRemoveItem(item.id)}
-//                           className="text-sm font-medium text-red-600 hover:underline dark:text-red-500"
-//                         >
-//                           Remove
-//                         </button>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             ) : (
-//               <div className="flex flex-col items-center justify-center space-y-4 p-6">
-//                 <img
-//                   src="https://img.freepik.com/premium-vector/vector-illustration-about-concept-no-items-found-no-results-found_675567-6604.jpg?semt=ais_hybrid"
-//                   alt="No products in cart"
-//                   className="w-48 h-48"
-//                 />
-//                 <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
-//                   No product in the cart. Add your desired product to proceed
-//                   further.
-//                 </p>
-//                 <button
-//                   onClick={handleGoToCategories}
-//                   className="bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-black focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-//                 >
-//                   Browse Products
-//                 </button>
-//               </div>
-//             )}
-//           </div>
-
-//           <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-//             <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-//               <p className="text-xl font-semibold text-gray-900 dark:text-white">
-//                 Order summary
-//               </p>
-//               <div className="space-y-4">
-//                 <dl className="flex items-center justify-between">
-//                   <dt className="text-base text-gray-500">Subtotal</dt>
-//                   <dd className="text-base text-gray-900">
-//                     ${calculateSubtotal().toFixed(2)}
-//                   </dd>
-//                 </dl>
-//                 <dl className="flex items-center justify-between">
-//                   <dt className="text-base text-gray-500">GST (18%)</dt>
-//                   <dd className="text-base text-gray-900">
-//                     ${calculateGST().toFixed(2)}
-//                   </dd>
-//                 </dl>
-//                 <dl className="flex items-center justify-between">
-//                   <dt className="text-base text-gray-500">Discount</dt>
-//                   <dd className="text-base text-green-600">
-//                     -${discount.toFixed(2)}
-//                   </dd>
-//                 </dl>
-//                 <dl className="flex items-center justify-between">
-//                   <dt className="text-base font-bold text-gray-900">Total</dt>
-//                   <dd className="text-base font-bold text-gray-900">
-//                     ${calculateDiscountedTotal().toFixed(2)}
-//                   </dd>
-//                 </dl>
-//               </div>
-//               <button
-//                 onClick={handleCheckout}
-//                 className="w-full bg-blue-700 text-white py-2 rounded-lg"
-//               >
-//                 Proceed to Checkout
-//               </button>
-//             </div>
-
-//             <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-//               <form onSubmit={handleCouponApply}>
-//                 <label className="block mb-2 text-sm">Coupon Code</label>
-//                 <input
-//                   type="text"
-//                   value={couponCode}
-//                   onChange={(e) => setCouponCode(e.target.value)}
-//                   className="w-full p-2 border rounded-lg"
-//                 />
-//                 <button
-//                   type="submit"
-//                   className="w-full bg-blue-700 text-white py-2 mt-2 rounded-lg"
-//                 >
-//                   Apply Code
-//                 </button>
-//                 {couponMessage && (
-//                   <p className="mt-2 text-sm text-red-600">{couponMessage}</p>
-//                 )}
-//               </form>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Cart;
-
-
