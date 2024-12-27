@@ -33,26 +33,25 @@ footer {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  /* opacity: 0.5; */
   background-attachment: fixed;
   z-index: 0;
 }
 
-::-webkit-scrollbar {
+.Hero::-webkit-scrollbar {
   width: 8px;
   transition: opacity 0.3s;
   background-color: #f6da55;
 }
 
-::-webkit-scrollbar-track {
+.Hero::-webkit-scrollbar-track {
   margin-top: 50px;
 }
 
-::-webkit-scrollbar-thumb {
+.Hero::-webkit-scrollbar-thumb {
   background-color: #000000;
 }
 
-::-webkit-scrollbar-thumb:active {
+.Hero::-webkit-scrollbar-thumb:active {
   background-color: #000000;
 }
 
