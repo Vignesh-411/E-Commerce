@@ -1,13 +1,19 @@
-// /* eslint-disable jsx-a11y/img-redundant-alt */
-// /* eslint-disable jsx-a11y/anchor-is-valid */
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Pages/CartContext";
+import { useOrders } from "../Pages/OrderContext";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import '../../Css/Cart.css'
+import "../../Css/Cart.css";
 const Cart = () => {
+
+
+  const [selectedProvider, setSelectedProvider] = useState("");
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState("");
+
+
+  const { addOrder } = useOrders();
+
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Card");
   const [paymentDetails, setPaymentDetails] = useState({
     cardNumber: "",
@@ -18,39 +24,87 @@ const Cart = () => {
     paypalEmail: "",
   });
 
-  // Handle UPI ID verification
-  const handleVerifyUpiId = () => {
-    if (paymentDetails.upiId) {
-      alert(`UPI ID ${paymentDetails.upiId} verified successfully!`);
+  const [upipaymentDetails, upisetPaymentDetails] = useState({ upiId: "" });
+  const [upiValidationMessage, setUpiValidationMessage] = useState("");
+  const [isUpiValid, setIsUpiValid] = useState(false);
+
+  const handleUpiIdChange = (e) => {
+    const updatedUpiId = e.target.value;
+    upisetPaymentDetails({ ...upipaymentDetails, upiId: updatedUpiId });
+
+    // UPI validation logic
+    const upiRegex = /^[a-zA-Z0-9.\-_]+@[a-zA-Z]+$/;
+    if (upiRegex.test(updatedUpiId)) {
+      setUpiValidationMessage("Valid UPI ID");
+      setIsUpiValid(true);
     } else {
-      alert("Please enter a valid UPI ID.");
+      setUpiValidationMessage("Invalid UPI ID format");
+      setIsUpiValid(false);
     }
   };
 
   // Handle PayLater confirmation
+  const clickConfirmPayLater = () => {
+    toast("PayLater option selected. Please complete payment within 30 days.");
+  };
+
+  const [selectedPayLaterOption, setSelectedPayLaterOption] = useState("");
+
   const handleConfirmPayLater = () => {
-    alert("PayLater option selected. Please complete payment within 30 days.");
+    if (!selectedPayLaterOption) {
+      alert("Please select a PayLater plan.");
+      return;
+    }
+    alert(`You selected: ${selectedPayLaterOption}. Proceeding with payment.`);
+    // Add your further logic here (e.g., navigate, API calls)
   };
 
-  // Handle final order confirmation
   const handleConfirmOrder = () => {
-    if (selectedPaymentMethod === "Card" && !paymentDetails.cardNumber) {
-      alert("Please fill in all card details.");
+    // Validate Cart
+    if (cart.length === 0) {
+      toast.error("Your cart is empty.", { position: "top-center" });
       return;
     }
 
-    if (selectedPaymentMethod === "UPI" && !paymentDetails.upiId) {
-      alert("Please enter a valid UPI ID.");
-      return;
+    // Validate Payment Details
+    if (selectedPaymentMethod === "Card") {
+      if (
+        !paymentDetails.cardNumber ||
+        !paymentDetails.expiry ||
+        !paymentDetails.cvv ||
+        !paymentDetails.cardHolder
+      ) {
+        toast.error("Please fill in all card details.", {
+          position: "top-center",
+        });
+        return;
+      }
+    } else if (selectedPaymentMethod === "UPI") {
+      if (!paymentDetails.upiId || !isUpiValid) {
+        toast.error("Please enter a valid UPI ID.", { position: "top-center" });
+        return;
+      }
+    } else if (selectedPaymentMethod === "PayPal") {
+      if (!paymentDetails.paypalEmail) {
+        toast.error("Please enter a valid PayPal email.", {
+          position: "top-center",
+        });
+        return;
+      }
     }
 
-    if (selectedPaymentMethod === "PayPal" && !paymentDetails.paypalEmail) {
-      alert("Please enter a valid PayPal email.");
-      return;
-    }
+    // Confirm Order
+    addOrder(cart); // Add cart items to orders
+    localStorage.removeItem("cart"); // Clear the cart
+    toast.success("Order placed successfully!", { position: "top-center" });
+    toast.info(`Payment successful with ${selectedPaymentMethod}!`, {
+      position: "top-center",
+    });
 
-    alert(`Payment successful with ${selectedPaymentMethod}!`);
+    // Navigate to Orders
+    navigate("/Orders");
   };
+
   const [activeButton, setActiveButton] = useState("cart");
 
   const { cart, incrementCartItem, decrementCartItem, removeFromCart } =
@@ -62,23 +116,23 @@ const Cart = () => {
   const [savedAddresses, setSavedAddresses] = useState([
     {
       id: 1,
-      name: "John Doe",
+      name: "SHIVAN  R",
       email: "john@example.com",
       phone: "1234567890",
-      street: "123 Elm Street",
-      city: "New York",
-      state: "NY",
-      zip: "10001",
+      street: "123 Main Street",
+      city: "Salem",
+      state: "Tamil Nadu",
+      zip: "636001",
     },
     {
       id: 2,
-      name: "Jane Smith",
+      name: "VELAN D",
       email: "jane@example.com",
       phone: "0987654321",
-      street: "456 Oak Avenue",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
+      street: "456 Main Street",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      zip: "600028",
     },
   ]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
@@ -188,7 +242,7 @@ const Cart = () => {
           cart.map((item) => (
             <div
               key={item.id}
-              className="custom-scrollbar rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+              className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
             >
               <div className="flex items-center justify-between">
                 <img className="h-20 w-20" src={item.image} alt={item.name} />
@@ -237,14 +291,25 @@ const Cart = () => {
             </div>
           ))
         ) : (
-          <p className="text-center text-gray-500">Your cart is empty.</p>
+          <>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
+              className="h-80 ml-64 w-fit overflow-y-hidden"
+              alt="empty cart"
+            ></img>
+            <p className="text-center text-2xl font-bold text-gray-500">
+              No items in the cart
+            </p>
+          </>
         );
 
-        case "address":
+      case "address":
         return (
           <div className="text-gray-700 dark:text-white">
             <div className="mx-auto max-w-screen-lg px-4 py-8">
-              <h2 className="text-2xl font-bold mb-4">Select Address</h2>
+              <h2 className="text-2xl font-bold mb-4">
+                Choose Your Saved Address
+              </h2>
               <div className="space-y-4">
                 {savedAddresses.map((addr) => (
                   <label
@@ -330,178 +395,264 @@ const Cart = () => {
                   className="w-full p-2 border rounded"
                 />
                 <div className="flex flex-row justify-center gap-10">
-                <button
-                  onClick={handleSaveNewAddress}
-                  className="w-fit  bg-green-700 mt-6 text-white py-2 px-4 rounded hover:bg-green-800"
-                >
-                  Save New Address
-                </button>
-              <button
-                onClick={handleProceedToPayment}
-                className="mt-6 w-fit bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
-                >
-                Proceed to Payment
-              </button>
-                  </div>
+                  <button
+                    onClick={handleSaveNewAddress}
+                    className="w-fit  bg-green-700 mt-6 text-white py-2 px-4 rounded hover:bg-green-800"
+                  >
+                    Save New Address
+                  </button>
+                  <button
+                    onClick={handleProceedToPayment}
+                    className="mt-6 w-fit bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
+                  >
+                    Proceed to Payment
+                  </button>
                 </div>
+              </div>
             </div>
           </div>
         );
 
-        case "payment":
-          return (
-            <div className="text-gray-700 dark:text-white">
-              <div className="mx-auto max-w-screen-lg px-4 py-8">
-                <h2 className="text-2xl font-bold mb-4">Select Payment Method</h2>
+      case "payment":
+        return (
+          <div className="text-gray-700 dark:text-white">
+            <div className="mx-auto max-w-screen-lg px-4 py-8">
+              <h2 className="text-2xl font-bold mb-4">Select Payment Method</h2>
 
-                {/* Payment Method Options */}
-                <div className="space-y-4">
-                  {["Card", "UPI", "PayPal", "PayLater"].map((method) => (
-                    <label
-                      key={method}
-                      className={`flex items-center space-x-4 p-4 border rounded ${
-                        selectedPaymentMethod === method
-                          ? "border-blue-500"
-                          : "border-gray-300"
+              {/* Payment Method Options */}
+              <div className="space-y-4">
+                {["Card", "UPI", "PayPal", "PayLater"].map((method) => (
+                  <label
+                    key={method}
+                    className={`flex items-center space-x-4 p-4 border-2 rounded cursor-pointer transition-opacity duration-200 ${
+                      selectedPaymentMethod === method
+                        ? "border-blue-500 opacity-100"
+                        : "border-gray-300 opacity-30 hover:opacity-75"
+                    }`}
+                    onClick={() => setSelectedPaymentMethod(method)} // Allow changing the selected method
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={method}
+                      checked={selectedPaymentMethod === method}
+                      onChange={() => setSelectedPaymentMethod(method)} // Ensure the method updates on click
+                      className="h-4 w-4 accent-blue-600"
+                    />
+                    <p className="font-medium">{method}</p>
+                  </label>
+                ))}
+              </div>
+
+              <div className="mt-6">
+                {/* Card Payment Fields */}
+                {selectedPaymentMethod === "Card" && (
+                  <div className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="Card Number"
+                      value={paymentDetails.cardNumber}
+                      onChange={(e) =>
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          cardNumber: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded"
+                    />
+                    <div className="flex space-x-4">
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        value={paymentDetails.expiry}
+                        onChange={(e) =>
+                          setPaymentDetails({
+                            ...paymentDetails,
+                            expiry: e.target.value,
+                          })
+                        }
+                        className="w-1/2 p-2 border rounded"
+                      />
+                      <input
+                        type="text"
+                        placeholder="CVV"
+                        value={paymentDetails.cvv}
+                        onChange={(e) =>
+                          setPaymentDetails({
+                            ...paymentDetails,
+                            cvv: e.target.value,
+                          })
+                        }
+                        className="w-1/2 p-2 border rounded"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Card Holder Name"
+                      value={paymentDetails.cardHolder}
+                      onChange={(e) =>
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          cardHolder: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded"
+                    />
+                  </div>
+                )}
+
+                {/* UPI Payment Fields */}
+                {selectedPaymentMethod === "UPI" && (
+                  <div className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="Enter UPI ID"
+                      value={upipaymentDetails.upiId}
+                      onChange={handleUpiIdChange}
+                      className={`w-full p-2 border rounded ${
+                        upipaymentDetails.upiId === ""
+                          ? "border-gray-300"
+                          : isUpiValid
+                          ? "border-green-500"
+                          : "border-red-500"
+                      }`}
+                    />
+                    {upipaymentDetails.upiId !== "" && (
+                      <p
+                        className={`text-sm ${
+                          isUpiValid ? "text-green-500" : "text-red-500"
+                        }`}
+                      >
+                        {upiValidationMessage}
+                      </p>
+                    )}
+                    <button
+                      onClick={() => {
+                        if (isUpiValid) {
+                          alert(`UPI ID ${upipaymentDetails.upiId} is valid!`);
+                        } else {
+                          alert("Please enter a valid UPI ID.");
+                        }
+                      }}
+                      className={`w-fit py-2 px-4 rounded ${
+                        isUpiValid
+                          ? "bg-blue-700 text-white"
+                          : "bg-gray-400 text-gray-600"
+                      }`}
+                      disabled={!isUpiValid}
+                    >
+                      Verify UPI ID
+                    </button>
+                  </div>
+                )}
+
+                {/* PayPal Payment Fields */}
+                {selectedPaymentMethod === "PayPal" && (
+                  <div className="space-y-4">
+                    <input
+                      type="email"
+                      placeholder="PayPal Email"
+                      value={paymentDetails.paypalEmail}
+                      onChange={(e) =>
+                        setPaymentDetails({
+                          ...paymentDetails,
+                          paypalEmail: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded"
+                    />
+                  </div>
+                )}
+
+                
+                {selectedPaymentMethod === "PayLater" && (
+                  <div className="space-y-4">
+                    <p className="text-gray-700">
+                      PayLater allows you to complete your payment within 30
+                      days. Select a plan:
+                    </p>
+                    <div className="space-y-2">
+      <label className="text-gray-700 font-medium">Select PayLater Provider:</label>
+      <select
+        value={selectedProvider}
+        onChange={(e) => setSelectedProvider(e.target.value)}
+        className="w-full p-2 border rounded bg-white text-gray-700"
+      >
+        <option value="" disabled>Select a Provider</option>
+        <option value="provider-1">Provider 1</option>
+        <option value="provider-2">Provider 2</option>
+        <option value="provider-3">Provider 3</option>
+      </select>
+      {selectedProvider && (
+        <p className="text-sm text-gray-600">
+          Selected Provider: <span className="font-medium">{selectedProvider}</span>
+        </p>
+      )}
+    </div>
+
+    {/* PayLater Time Period Dropdown */}
+    <div className="space-y-2">
+      <label className="text-gray-700 font-medium">Select Time Period:</label>
+      <select
+        value={selectedTimePeriod}
+        onChange={(e) => setSelectedTimePeriod(e.target.value)}
+        className="w-full p-2 border rounded bg-white text-gray-700"
+        disabled={!selectedProvider} // Disable if no provider is selected
+      >
+        <option value="" disabled>Select a Time Period</option>
+        {selectedProvider === "provider-1" && (
+          <>
+            <option value="15-days">15 Days - 0% Interest</option>
+            <option value="30-days">30 Days - 5% Interest</option>
+          </>
+        )}
+        {selectedProvider === "provider-2" && (
+          <>
+            <option value="60-days">60 Days - 10% Interest</option>
+            <option value="90-days">90 Days - 15% Interest</option>
+          </>
+        )}
+        {selectedProvider === "provider-3" && (
+          <>
+            <option value="120-days">120 Days - 20% Interest</option>
+            <option value="180-days">180 Days - 25% Interest</option>
+          </>
+        )}
+      </select>
+      {selectedTimePeriod && (
+        <p className="text-sm text-gray-600">
+          Selected Time Period: <span className="font-medium">{selectedTimePeriod}</span>
+        </p>
+      )}
+    </div>
+
+                    <button
+                      onClick={clickConfirmPayLater}
+                      disabled={!selectedPayLaterOption} // Disable button if no plan is selected
+                      className={`w-fit py-2 px-4 rounded ${
+                        selectedPayLaterOption
+                          ? "bg-green-700 text-white hover:bg-green-800"
+                          : "bg-gray-400 text-gray-600 cursor-not-allowed"
                       }`}
                     >
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value={method}
-                        checked={selectedPaymentMethod === method}
-                        onChange={() => setSelectedPaymentMethod(method)}
-                        className="h-4 w-4 accent-blue-600"
-                      />
-                      <p className="font-medium">{method}</p>
-                    </label>
-                  ))}
-                </div>
+                      Proceed with PayLater
+                    </button>
+                  </div>
+                )}
+              </div>
 
-                {/* Dynamic Input Fields Based on Payment Method */}
-                <div className="mt-6">
-                  {selectedPaymentMethod === "Card" && (
-                    <div className="space-y-4">
-                      <input
-                        type="text"
-                        placeholder="Card Number"
-                        value={paymentDetails.cardNumber}
-                        onChange={(e) =>
-                          setPaymentDetails({
-                            ...paymentDetails,
-                            cardNumber: e.target.value,
-                          })
-                        }
-                        className="w-full p-2 border rounded"
-                      />
-                      <div className="flex space-x-4">
-                        <input
-                          type="text"
-                          placeholder="MM/YY"
-                          value={paymentDetails.expiry}
-                          onChange={(e) =>
-                            setPaymentDetails({
-                              ...paymentDetails,
-                              expiry: e.target.value,
-                            })
-                          }
-                          className="w-1/2 p-2 border rounded"
-                        />
-                        <input
-                          type="text"
-                          placeholder="CVV"
-                          value={paymentDetails.cvv}
-                          onChange={(e) =>
-                            setPaymentDetails({
-                              ...paymentDetails,
-                              cvv: e.target.value,
-                            })
-                          }
-                          className="w-1/2 p-2 border rounded"
-                        />
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Card Holder Name"
-                        value={paymentDetails.cardHolder}
-                        onChange={(e) =>
-                          setPaymentDetails({
-                            ...paymentDetails,
-                            cardHolder: e.target.value,
-                          })
-                        }
-                        className="w-full p-2 border rounded"
-                      />
-                    </div>
-                  )}
 
-                  {selectedPaymentMethod === "UPI" && (
-                    <div className="space-y-4">
-                      <input
-                        type="text"
-                        placeholder="Enter UPI ID"
-                        value={paymentDetails.upiId}
-                        onChange={(e) =>
-                          setPaymentDetails({
-                            ...paymentDetails,
-                            upiId: e.target.value,
-                          })
-                        }
-                        className="w-full p-2 border rounded"
-                      />
-                      <button
-                        onClick={handleVerifyUpiId}
-                        className="w-fit bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
-                      >
-                        Verify UPI ID
-                      </button>
-                    </div>
-                  )}
-
-                  {selectedPaymentMethod === "PayPal" && (
-                    <div className="space-y-4">
-                      <input
-                        type="email"
-                        placeholder="PayPal Email"
-                        value={paymentDetails.paypalEmail}
-                        onChange={(e) =>
-                          setPaymentDetails({
-                            ...paymentDetails,
-                            paypalEmail: e.target.value,
-                          })
-                        }
-                        className="w-full p-2 border rounded"
-                      />
-                    </div>
-                  )}
-
-                  {selectedPaymentMethod === "PayLater" && (
-                    <div className="space-y-4">
-                      <p className="text-gray-700">
-                        PayLater allows you to complete your payment within 30
-                        days.
-                      </p>
-                      <button
-                        onClick={handleConfirmPayLater}
-                        type="dropdown dropdown-toggle" 
-                        className="w-fit bg-green-700 text-white py-2 px-4 rounded hover:bg-green-800"
-                      >
-                        Proceed with PayLater
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Confirm Payment Button */}
+              {selectedPaymentMethod && (
                 <button
                   onClick={handleConfirmOrder}
                   className="mt-6 w-fit bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-800"
                 >
                   Confirm Order
                 </button>
-              </div>
+              )}
             </div>
-          );
+          </div>
+        );
 
       default:
         return null;
