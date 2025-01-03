@@ -697,7 +697,7 @@
     width: 50rem;
   }
   .book {
-    width: 97%;
+    width: 97%; 
     height: 50vh;
     margin-left: 20px;
   }
@@ -705,21 +705,21 @@
 
 
 /* Webkit browsers (Chrome, Edge, Safari) */
-.Categories::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
   background-color: #f6da55; /* Background for the scrollbar */
 }
 
-.Categories::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   margin-top: 0px; 
 }
 
-.Categories::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: #000000; /* Scrollbar handle color */
   
 }
 
-.Categories::-webkit-scrollbar-thumb:active {
+::-webkit-scrollbar-thumb:active {
   background-color: #555555; /* Active state color */
 }
 

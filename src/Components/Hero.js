@@ -95,7 +95,7 @@ const Hero = () => {
         </div>
       </div>
       <div className="top">
-        <div className="Carousel"><SliderPlayer /></div>
+        <div className="Carousel"><SliderPlayer/></div>
         <div className="top-left" ref={leftPanelRef}></div>
         <div className="top-right" ref={rightPanelRef}></div>
       </div>

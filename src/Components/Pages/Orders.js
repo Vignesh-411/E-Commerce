@@ -41,8 +41,14 @@ const OrdersPage = () => {
               key={index}
               className="flex items-center space-x-4 border p-4 rounded"
             >
+              <img className="w-40"src={item.image} alt={item.name}></img>
+              <div className="flex justify-between w-full">
+              <div>
               <p className="flex-1">{item.name}</p>
+              <p>Description : {item.description}</p>
+              </div>
               <p>Quantity: {item.quantity}</p>
+              </div>
             </div>
           ))}
         </div>

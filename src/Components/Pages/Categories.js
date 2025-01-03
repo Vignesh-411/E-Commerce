@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Tech from "../../Images/techcat.png";
+import Cart from "../../Images/cart.gif";
 import Decor from "../../Images/homecat.png";
 import Toys from "../../Images/toyscat.jpeg";
 import HomeAppl from "../../Images/Homeappl.jpg";
@@ -25,26 +26,44 @@ const Categories = () => {
   const goHome = () => {
     navigate("/");
   };
+
+  const GotoCart = () => {
+    navigate("/cart");
+  };
+
   return (
     <div className="Categories bg-fixed-container custom-scrollbar overflow-x-hidden">
-      <div className="absolute top-5 left-5 z-20">
-        <button
-          onClick={goHome}
-          className=" back text-black px-4 py-2 font-bold"
-        >
-          <img src={Arrow} alt="arrow" className="h-10 arrow" />
-          <span className="tooltip-text">Go To Home</span>
-        </button>
+      <div >
+        <div className="absolute top-5 left-5 z-20">
+          <button
+            onClick={goHome}
+            className=" back text-black px-4 py-2 font-bold"
+          >
+            <img src={Arrow} alt="arrow" className="h-10 arrow" />
+            <span className="tooltip-text">Go To Home</span>
+          </button>
+        </div>
+        <div className="absolute top-5 left-[88rem] z-20">
+          <button
+            onClick={GotoCart}
+            className=" back text-white px-4 py-2 font-bold"
+          >
+            <div className="flex w-auto -ml-20 bg-black p-2 rounded-xl">
+            <img src={Cart} alt="arrow" className="h-10 w-10 bg-black"/>
+            <p className="ml-2 mr-2 pt-1.5 text-[18px]">Go To Cart</p>
+            </div>
+          </button>
+        </div>
       </div>
 
-{/* --------------------------------------------------------------- product categories --------------------------------------------------------------- */}
+      {/* --------------------------------------------------------------- product categories --------------------------------------------------------------- */}
 
       <div className="Cat-container relative z-10 flex-col overflow-hidden">
         <h1 className=" heading text-center text-8xl uppercase text-white bg-[#0084B5] w-fit pt-5 pb-3 pl-5 pr-5 ml-auto mr-auto mt-10 rounded-xl shadow-custom font-[MyFont3]">
           Product Categories
         </h1>
 
-{/* --------------------------------------------------------------- sale card --------------------------------------------------------------- */}
+        {/* --------------------------------------------------------------- sale card --------------------------------------------------------------- */}
 
         <div className="flex flex-col gap-5 -mt-5 rounded-xl overflow-hidden w-full ">
           <div className="cat1 h-full w-[calc(100%-50px)] ml-5 mt-12 rounded-xl shadow-custom sale">
@@ -55,8 +74,8 @@ const Categories = () => {
             />
           </div>
 
-{/* ---------------------------------------------------------------  Men and Women Clothing  --------------------------------------------------------------- */}          
-{/* ---------------------------------------------------------------  Men Clothing  --------------------------------------------------------------- */}          
+          {/* ---------------------------------------------------------------  Men and Women Clothing  --------------------------------------------------------------- */}
+          {/* ---------------------------------------------------------------  Men Clothing  --------------------------------------------------------------- */}
 
           <div className="flex justify-between gap-5 w-[97%] ml-5 mt-2 men-women">
             <div className="image-container w-[47%] men">
@@ -73,7 +92,7 @@ const Categories = () => {
               </button>
             </div>
 
-{/* ---------------------------------------------------------------  Women Clothing  --------------------------------------------------------------- */}          
+            {/* ---------------------------------------------------------------  Women Clothing  --------------------------------------------------------------- */}
 
             <div className="image-container w-[48%] women">
               <img
@@ -90,9 +109,9 @@ const Categories = () => {
             </div>
           </div>
 
-{/* ---------------------------------------------------------------  End of Men and Women Clothing  --------------------------------------------------------------- */}
+          {/* ---------------------------------------------------------------  End of Men and Women Clothing  --------------------------------------------------------------- */}
 
-{/* ---------------------------------------------------------------   Electronics,Home Appliances,Toys,Shoes,  --------------------------------------------------------------- */}
+          {/* ---------------------------------------------------------------   Electronics,Home Appliances,Toys,Shoes,  --------------------------------------------------------------- */}
           <div className="flex flex-row gap-3 w-screen h-full ml-5">
             <div className=" ht flex flex-col gap-5">
               <div className="image-container w-[47%]">
@@ -158,9 +177,9 @@ const Categories = () => {
             </div>
           </div>
 
-{/* ---------------------------------------------------------------  End of Electronics,Home Appliances,Toys,Shoes,  --------------------------------------------------------------- */}
+          {/* ---------------------------------------------------------------  End of Electronics,Home Appliances,Toys,Shoes,  --------------------------------------------------------------- */}
 
-{/* ---------------------------------------------------------------  Cosmetics, Tools, Stationery,  --------------------------------------------------------------- */}
+          {/* ---------------------------------------------------------------  Cosmetics, Tools, Stationery,  --------------------------------------------------------------- */}
 
           <div className="flex flex-row gap-5 w-full ml-5">
             <div className="flex flex-col gap-5 w-[72rem]">
@@ -205,9 +224,9 @@ const Categories = () => {
               </div>
             </div>
 
-{/* ---------------------------------------------------------------  End of Cosmetics, Tools, Stationery,  --------------------------------------------------------------- */}          
+            {/* ---------------------------------------------------------------  End of Cosmetics, Tools, Stationery,  --------------------------------------------------------------- */}
 
-{/* ---------------------------------------------------------------  Home Decor, Books,  --------------------------------------------------------------- */}
+            {/* ---------------------------------------------------------------  Home Decor, Books,  --------------------------------------------------------------- */}
 
             <div className="image-container dc">
               <img

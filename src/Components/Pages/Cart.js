@@ -6,12 +6,6 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../Css/Cart.css";
 const Cart = () => {
-
-
-  const [selectedProvider, setSelectedProvider] = useState("");
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState("");
-
-
   const { addOrder } = useOrders();
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Card");
@@ -43,20 +37,25 @@ const Cart = () => {
     }
   };
 
-  // Handle PayLater confirmation
-  const clickConfirmPayLater = () => {
-    toast("PayLater option selected. Please complete payment within 30 days.");
-  };
-
-  const [selectedPayLaterOption, setSelectedPayLaterOption] = useState("");
+  const [selectedProvider, setSelectedProvider] = useState("");
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState("");
 
   const handleConfirmPayLater = () => {
-    if (!selectedPayLaterOption) {
-      alert("Please select a PayLater plan.");
+    if (!selectedProvider) {
+      toast.info("Please select a PayLater provider.");
       return;
     }
-    alert(`You selected: ${selectedPayLaterOption}. Proceeding with payment.`);
-    // Add your further logic here (e.g., navigate, API calls)
+
+    if (!selectedTimePeriod) {
+      toast.info("Please select a PayLater time period.");
+      return;
+    }
+
+    toast(
+      `You selected: ${selectedProvider} with a time period of ${selectedTimePeriod}. Proceeding with payment.`
+    );
+
+    // Add further actions like saving data, navigating, or processing the payment
   };
 
   const handleConfirmOrder = () => {
@@ -564,73 +563,107 @@ const Cart = () => {
                   </div>
                 )}
 
-                
                 {selectedPaymentMethod === "PayLater" && (
                   <div className="space-y-4">
                     <p className="text-gray-700">
-                      PayLater allows you to complete your payment within 30
-                      days. Select a plan:
+                      PayLater allows you to complete your payment within a
+                      specified time. Select a plan:
                     </p>
+
+                    {/* PayLater Provider Dropdown */}
                     <div className="space-y-2">
-      <label className="text-gray-700 font-medium">Select PayLater Provider:</label>
-      <select
-        value={selectedProvider}
-        onChange={(e) => setSelectedProvider(e.target.value)}
-        className="w-full p-2 border rounded bg-white text-gray-700"
-      >
-        <option value="" disabled>Select a Provider</option>
-        <option value="provider-1">Provider 1</option>
-        <option value="provider-2">Provider 2</option>
-        <option value="provider-3">Provider 3</option>
-      </select>
-      {selectedProvider && (
-        <p className="text-sm text-gray-600">
-          Selected Provider: <span className="font-medium">{selectedProvider}</span>
-        </p>
-      )}
-    </div>
+                      <label className="text-gray-700 font-medium">
+                        Select PayLater Provider:
+                      </label>
+                      <select
+                        value={selectedProvider}
+                        onChange={(e) => setSelectedProvider(e.target.value)}
+                        className="w-full p-2 border rounded bg-white text-gray-700"
+                      >
+                        <option value="" disabled>
+                          Select a Provider
+                        </option>
+                        <option value="provider-1">
+                          Provider 1 (Short Term)
+                        </option>
+                        <option value="provider-2">
+                          Provider 2 (Medium Term)
+                        </option>
+                        <option value="provider-3">
+                          Provider 3 (Long Term)
+                        </option>
+                      </select>
+                      {selectedProvider && (
+                        <p className="text-sm text-gray-600">
+                          Selected Provider:{" "}
+                          <span className="font-medium">
+                            {selectedProvider}
+                          </span>
+                        </p>
+                      )}
+                    </div>
 
-    {/* PayLater Time Period Dropdown */}
-    <div className="space-y-2">
-      <label className="text-gray-700 font-medium">Select Time Period:</label>
-      <select
-        value={selectedTimePeriod}
-        onChange={(e) => setSelectedTimePeriod(e.target.value)}
-        className="w-full p-2 border rounded bg-white text-gray-700"
-        disabled={!selectedProvider} // Disable if no provider is selected
-      >
-        <option value="" disabled>Select a Time Period</option>
-        {selectedProvider === "provider-1" && (
-          <>
-            <option value="15-days">15 Days - 0% Interest</option>
-            <option value="30-days">30 Days - 5% Interest</option>
-          </>
-        )}
-        {selectedProvider === "provider-2" && (
-          <>
-            <option value="60-days">60 Days - 10% Interest</option>
-            <option value="90-days">90 Days - 15% Interest</option>
-          </>
-        )}
-        {selectedProvider === "provider-3" && (
-          <>
-            <option value="120-days">120 Days - 20% Interest</option>
-            <option value="180-days">180 Days - 25% Interest</option>
-          </>
-        )}
-      </select>
-      {selectedTimePeriod && (
-        <p className="text-sm text-gray-600">
-          Selected Time Period: <span className="font-medium">{selectedTimePeriod}</span>
-        </p>
-      )}
-    </div>
+                    {/* PayLater Time Period Dropdown */}
+                    <div className="space-y-2">
+                      <label className="text-gray-700 font-medium">
+                        Select Time Period:
+                      </label>
+                      <select
+                        value={selectedTimePeriod}
+                        onChange={(e) => setSelectedTimePeriod(e.target.value)}
+                        className="w-full p-2 border rounded bg-white text-gray-700"
+                        disabled={!selectedProvider} // Disable if no provider is selected
+                      >
+                        <option value="" disabled>
+                          Select a Time Period
+                        </option>
+                        {selectedProvider === "provider-1" && (
+                          <>
+                            <option value="15-days">
+                              15 Days - 0% Interest
+                            </option>
+                            <option value="30-days">
+                              30 Days - 5% Interest
+                            </option>
+                          </>
+                        )}
+                        {selectedProvider === "provider-2" && (
+                          <>
+                            <option value="60-days">
+                              60 Days - 10% Interest
+                            </option>
+                            <option value="90-days">
+                              90 Days - 15% Interest
+                            </option>
+                          </>
+                        )}
+                        {selectedProvider === "provider-3" && (
+                          <>
+                            <option value="120-days">
+                              120 Days - 20% Interest
+                            </option>
+                            <option value="180-days">
+                              180 Days - 25% Interest
+                            </option>
+                          </>
+                        )}
+                      </select>
+                      {selectedTimePeriod && (
+                        <p className="text-sm text-gray-600">
+                          Selected Time Period:{" "}
+                          <span className="font-medium">
+                            {selectedTimePeriod}
+                          </span>
+                        </p>
+                      )}
+                    </div>
 
+                    {/* Confirm Button */}
                     <button
-                      onClick={clickConfirmPayLater}
-                      disabled={!selectedPayLaterOption} // Disable button if no plan is selected
+                      onClick={handleConfirmPayLater}
+                      disabled={!selectedProvider || !selectedTimePeriod}
                       className={`w-fit py-2 px-4 rounded ${
-                        selectedPayLaterOption
+                        selectedProvider && selectedTimePeriod
                           ? "bg-green-700 text-white hover:bg-green-800"
                           : "bg-gray-400 text-gray-600 cursor-not-allowed"
                       }`}
@@ -640,7 +673,6 @@ const Cart = () => {
                   </div>
                 )}
               </div>
-
 
               {selectedPaymentMethod && (
                 <button
@@ -672,12 +704,22 @@ const Cart = () => {
       }}
     >
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0 h-full flex flex-col">
-        <button
-          onClick={() => navigate("/categories")}
-          className="bg-blue-700 text-white w-48 font-semibold py-2 px-4 rounded-md hover:bg-black focus:outline-none flex justify-start mb-10 mt-10 -ml-24"
-        >
-          &larr; Back to Categories
-        </button>
+        <div>
+          <div className="flex justify-between w-[115%] -ml-24 mt-10 mb-10">
+            <button
+              onClick={() => navigate("/categories")}
+              className="bg-blue-700 text-white w-48 font-semibold py-2 px-4 rounded-md hover:bg-black"
+            >
+              &larr; Back to Categories
+            </button>
+            <button
+              onClick={() => navigate("/Orders")}
+              className="bg-blue-700 text-white w-48 font-semibold py-2 px-4 rounded-md hover:bg-black"
+            >
+              &rarr; Go To Orders
+            </button>
+          </div>
+        </div>
         <div className="flex justify-center items-center border-b border-gray-200 whitespace-nowrap dark:border-gray-700 mb-4">
           <button
             onClick={() => setActiveButton("cart")}
