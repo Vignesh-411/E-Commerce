@@ -704,7 +704,7 @@
 }
 
 
-/* Webkit browsers (Chrome, Edge, Safari) */
+
 ::-webkit-scrollbar {
   width: 10px;
   background-color: #f6da55; /* Background for the scrollbar */

@@ -205,13 +205,18 @@ footer {
 @media (max-width: 1250px) {
   .Head p {
     font-size: 0.9rem;
-    width: 60%;
+    width: 37%;
     margin-top: 10px;
+  }
+
+   br{
+    display: none;
   }
   .top-left, .top-right 
   {
     display: none;
   }
+
 }
 
 @media (max-width: 1090px) {

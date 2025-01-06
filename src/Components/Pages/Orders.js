@@ -1,20 +1,21 @@
 import React from "react";
 import { useOrders } from "./OrderContext";
+import "../../Css/Orders.css";
 
 const OrdersPage = () => {
   const { orders } = useOrders();
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between">
-        <a className="btn hover:bg-blue-300 hover:text-black"
+    <div className="Order p-4">
+      <div className="main flex justify-between ml-1">
+        <a className="btn1 hover:bg-blue-300 hover:text-black l:h-10"
         href="/Categories">
         <l1 className="mr-2 text-2xl">&#8678;</l1>
           CATEGORIES
         </a>
 
         <a
-          className="btn hover:bg-blue-300 font-bold hover:text-black"
+          className="btn1 hover:bg-blue-300 font-bold hover:text-black"
           href="/Cart"
         >
           <l1 className="mr-2 text-2xl">&#8680;</l1>
@@ -35,19 +36,19 @@ const OrdersPage = () => {
           </a>
         </>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 max-w-s">
           {orders.map((item, index) => (
             <div
               key={index}
-              className="flex items-center space-x-4 border p-4 rounded"
+              className="content flex items-center space-x-4 border p-4 rounded"
             >
-              <img className="w-40"src={item.image} alt={item.name}></img>
+              <img className="image w-40"src={item.image} alt={item.name}></img>
               <div className="flex justify-between w-full">
               <div>
-              <p className="flex-1">{item.name}</p>
-              <p>Description : {item.description}</p>
+              <p className="Name flex-1">{item.name}</p>
+              <p className="Description">Description : {item.description}</p>
               </div>
-              <p>Quantity: {item.quantity}</p>
+              <p className="Quantity">Quantity: {item.quantity}</p>
               </div>
             </div>
           ))}
